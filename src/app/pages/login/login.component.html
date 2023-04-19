@@ -1,0 +1,90 @@
+<block-ui>
+<div class="login">
+	<!-- <img class="wave" src="../../assets/wave.png"> -->
+	<div class="container">
+		<div class="img">
+			<img [src]="leftSideImg">
+		</div>
+		<div class="login-content" >
+			<form  *ngIf="isNormalLogin" autocomplete="off"> <!-- *ngIf="isNormalLogin" -->
+				
+				<h2 *ngIf="APP_CONSTANT.isUAT" class="gradient-multiline" style="font-weight: bold;"><span>UAT APPLICATION</span></h2>
+				<img src="../../../assets/IRI_Image.png">				
+				<h3 class="title">File Transfer Application_demo</h3>
+				<div class="note" *ngIf="attemptStatus">
+					{{attemptMessage}}
+				</div>
+				<div class="input-div one">
+					<div class="i">
+						<i class="fas fa-user"></i>
+					</div>
+					<div class="div">
+						<input type="tel" style="display: none;">
+						<input type="text" class="input" name="username" placeholder="Username" [(ngModel)]="user.email"
+							[disabled]="isDisabled"  autocomplete="off">
+					</div>
+				</div>
+				<div class="input-div pass">
+					<div class="i">
+						<i class="fas fa-lock"></i>
+					</div>
+					<div class="div">
+						<!-- <input type="password" class="input" name="password"  placeholder="Password" [(ngModel)]="user.pwd"
+						 readonly onfocus="this.removeAttribute('readonly');" autocomplete="off"> -->
+						 <input type="text" class="input" name="password"  placeholder="Password" [(ngModel)]="user.pwd"
+						   onfocus="this.type='password'" autocomplete="off">
+
+						
+					</div>
+				</div>
+				<a routerLink="/full/forgotPassword" *ngIf="!isDisabled">Forgot Password?</a> 
+				<span style="margin-left: 50px;cursor: pointer;" *ngIf="!inactiveUser && (attemptStatus && hideHintButton)" (click)="showHint()">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> Click Here to see Hint
+				</span>
+				<span style="margin-left: 50px;cursor: pointer;" *ngIf="(attemptStatus && !hideHintButton)">
+					<i class="fa fa-info-circle" aria-hidden="true"></i> Hint : {{showHintMessage}}
+				</span>
+				<input type="submit" class="btn" value="Login" (click)="onSubmit()">
+			</form>
+
+			<form *ngIf="isThirdPartyLogin"> <!-- *ngIf="isThirdPartyLogin" -->
+				<h2 *ngIf="APP_CONSTANT.isUAT" class="gradient-multiline" style="font-weight: bold;"><span>UAT APPLICATION</span></h2>
+				<img src="../../../assets/IRI_Image.png">
+				<h3 class="title">File Transfer Application</h3>
+				<div class="input-div one">
+					<div class="i">
+						<i class="fas fa-user"></i>
+					</div>
+					<div class="div">
+						<input type="text" class="input" name="username" placeholder="Username" [(ngModel)]="user.email"
+							[disabled]="isDisabled">
+					</div>
+				</div>
+				<div class="mb-3" *ngIf="otpGenerated">
+					<ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="config"></ng-otp-input>
+				</div>
+				<a href="#" *ngIf="!isDisabled && otpGenerated">Resend Passcode ?</a>
+				<input type="submit" class="btn" value="Login" (click)="onSubmit()" *ngIf="otpGenerated">
+
+				<input type="submit" class="btn" value="Generate OTP" (click)="generateOTP()" *ngIf="!otpGenerated">
+				<div class="enterOTP">
+					<p (click)="enterOTP()" *ngIf="enterOtp">Already having code Please click ,  </p>
+					<span (click)="enterOTP()" *ngIf="enterOtp" class="ml-2">Enter OTP </span>
+				</div>
+				
+				<div class="regenOTPDiv" *ngIf="timer">
+					<p (click)="countdownFinished?regenOTP():''"   [ngClass] = "countdownFinished ? 'resendOTPEnable' : 'resendOTPDisable'">
+						  Click here to regenearte OTP </p>
+					<countdown class="timer" #cd [config]="countDownConfig" (event)="handleEvent($event)">$!m!:$!s!</countdown>
+				</div>
+
+				<div *ngIf="regenOtp">
+					<p (click)="regenOTP1()" class="regenOTP">  Click here to regenearte OTP </p>
+				</div>
+				
+			</form>
+		</div>
+		
+	</div>
+</div>
+</block-ui>

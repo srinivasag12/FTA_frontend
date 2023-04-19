@@ -1,0 +1,422 @@
+<block-ui>
+
+<!-- <div class="card" style="padding: 50px;" id="searchFilter">
+  <div style="display: flex;justify-content: center;">
+    <div class="row">
+      <div class="col-sm-12" style="text-align: center;">
+        <mat-form-field style="width: 300px;">
+          <input type="text"
+                placeholder="Search User"
+                matInput
+                [formControl]="searchFilterControl"
+                [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let user of filteredOptions | async" [value]="user">
+              {{user}}
+            </mat-option>
+        </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-12" style="text-align: center;">
+        <button mat-stroked-button color="primary" [disabled]="searchFilterControl.invalid" (click)="searchFilterSubmit()">Search</button>
+      </div>
+    </div>
+
+  </div>  
+</div>   -->
+  
+<div style="padding: 10px;" id="searchResults">
+    <!-- <span class="thirdPartyShareLabel"> SHARED BY THIRD PARTY</span>
+    <mat-divider style="font-weight: bold;"></mat-divider> -->
+
+    <div [ngClass]="{'isManager':isManager,'isUser':!isManager}">
+      
+
+      <!-- <mat-form-field style="width:300px !important;font-weight: 500;font-size:medium;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+        <mat-label>Selected user</mat-label>
+        <input matInput [(ngModel)]="selectedUser" #input class="search" readonly>
+      </mat-form-field> -->
+
+      <mat-form-field style="width: 300px;" *ngIf="isManager && !searchFilterFlag">
+        <mat-label>Search By User</mat-label>
+        <input type="text"
+              placeholder=""
+              #input
+              class="search"
+              matInput
+              
+              [formControl]="searchFilterControl"
+              [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let user of filteredOptions | async" [value]="user"  (click)="searchFilterSubmit()">
+            {{user}}
+          </mat-option>
+      </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field style="width:300px !important;font-weight: 500;font-size:medium;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+        <mat-label>Search</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Search" #input class="search" autocomplete="off">
+      </mat-form-field>
+    </div>  
+    
+    <div style="padding-top: 10px;">
+
+
+      <table mat-table [dataSource]="dataSource1" matSort (matSortChange)="sortData($event)" multiTemplateDataRows class="mat-elevation-z8">
+                            
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+            matTooltipPosition="below">
+            <mat-icon aria-hidden="false" aria-label="Example home icon"
+              style="color: rgb(207, 219, 28);cursor: pointer;"> folder
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="vessel_NAME" >
+          <!-- Vessel -->
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="vessel_NAME"> Vessel Name </th>
+          <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files" 
+            style="font-size:medium;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+            {{element.vessel_NAME | uppercase}}
+             </td>
+        </ng-container>
+
+        <ng-container matColumnDef="link_DESC">
+          <th mat-header-cell *matHeaderCellDef > Inspection Type </th>
+          <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+            style="font-size:medium;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+            {{element.description}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="imoNumber">
+          <th mat-header-cell *matHeaderCellDef > IMO No. </th>
+          <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+            style="font-size:medium;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">                      
+            {{element.vsl_IMO_NO}}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="officialNumber">
+          <th mat-header-cell *matHeaderCellDef > Official No. </th>
+          <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+            style="font-size:medium;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">    
+            {{element.vsl_OFFICIAL_NO}}            
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="uploadedBy">
+          <th mat-header-cell *matHeaderCellDef  mat-sort-header="uploadedBy"> Uploaded By </th>
+          <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+            style="font-size:medium;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+            {{element.email }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="submittedDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="submittedDate"> Last Submitted On </th>
+          <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+            style="font-size:medium;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+            {{element.submittedDate | date:'dd-MMM-yyy  HH:mm' }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="archiveFolder">
+          <th mat-header-cell *matHeaderCellDef> Delete Folder </th>
+          <td mat-cell *matCellDef="let element" 
+            style="font-size:medium;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+            <!-- <mat-icon (click)="openDeleteFolderModal(element);$event.stopPropagation()">archive</mat-icon>  -->
+            <img src="../../../assets/folderDelete.svg" height="30px" width="30px" (click)="openDeleteFolderModal(element);$event.stopPropagation()" matTooltip="Click to Delete Folder"> 
+          </td>
+
+            <!-- <td mat-cell *matCellDef="let file" (click)="openDeleteFileModal(file);"> 
+              <img src="../../../assets/delete.svg" height="30px" width="30px" > 
+          </td> -->
+        </ng-container>
+
+
+        <ng-container matColumnDef="reassign">
+          <th mat-header-cell *matHeaderCellDef> Re-Assign </th>
+          <td mat-cell *matCellDef="let element" 
+            style="font-size:medium;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">
+            <button mat-stroked-button color="primary" (click)="openReAssignModal(element);$event.stopPropagation()">Re-Assign</button>
+            <!-- <img src="../../../assets/folderDelete.svg" height="30px" width="30px" (click)="openDeleteFolderModal(element);$event.stopPropagation()" matTooltip="Click to Delete Folder">  -->
+          </td>
+
+            <!-- <td mat-cell *matCellDef="let file" (click)="openDeleteFileModal(file);"> 
+              <img src="../../../assets/delete.svg" height="30px" width="30px" > 
+          </td> -->
+        </ng-container>
+
+        <ng-container matColumnDef="review">
+          <th mat-header-cell *matHeaderCellDef style="padding-left: 10px;"> Review </th>
+          <td mat-cell *matCellDef="let element" 
+          matTooltipPosition="below" >
+          <!-- <mat-chip-list >
+            <mat-chip [ngClass]="{'reviewStatus1': element.reviewStatus === 0, 'reviewStatus2': element.reviewStatus === 1,'reviewStatus3': element.reviewStatus === 2,'reviewStatus4': element.reviewStatus === 3}">Review Pending</mat-chip>
+          </mat-chip-list> -->
+       
+          <!-- <circle-progress [options]="optionsA" [renderOnClick]="false"></circle-progress> -->
+
+        <circle-progress
+        #circleProgress
+        [percent]="element.progressPercent"
+        [showUnits]="true"
+        [unitsFontSize]="element.progressPercent==='100'?'12':'15'"
+        [showSubtitle]="false"
+        [subtitleFontSize]="5"
+        [titleFontSize]="element.progressPercent==='100'?'12':'15'"
+        [radius]="25"
+        [outerStrokeWidth]="4"          
+        [innerStrokeWidth]="2"
+        [outerStrokeColor]="element.progressPercent==='0'?'#f88f7c':(element.progressPercent==='100'?'#78C000':'#fdb900')"
+        [innerStrokeColor]="element.progressPercent==='0'?'#ffcfcc':(element.progressPercent==='100'?'#C7E596':'#dee9c8')"
+        [animation]="true"
+        [animationDuration]="300"
+        [lazy]="false"
+        [renderOnClick]="false"
+      ></circle-progress>
+
+        <!-- 
+          Red
+          outerStrokeColor=#f88f7c
+          innerStrokeColor=#ffcfcc
+          Yellow
+          outerStrokeColor=#fdb900
+          innerStrokeColor=#dee9c8
+          Green
+          outerStrokeColor=#78C000
+          innerStrokeColor=#C7E596
+         -->
+        
+        </td>
+        </ng-container>
+
+        <ng-container matColumnDef="share">
+          <th mat-header-cell *matHeaderCellDef> Share </th>
+          <td mat-cell *matCellDef="let element" 
+            style="font-size:medium;">
+            <img src="../../../assets/share.svg" class="uploadButton" alt="Mail" style="zoom:1.0">  
+          </td>
+        </ng-container>
+
+        <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+            <!-- {{element.files?.length}}
+            {{element | json}} -->
+            <div class="example-element-detail" *ngIf="element.files?.data.length "
+              [@detailExpand]="element == expandedElement  ? 'expanded' : 'collapsed'">
+              <!-- {{expandedElement | json}} -->
+              <div class="inner-table mat-elevation-z8" *ngIf="expandedElement">
+
+                <table #innerTables mat-table [dataSource]="element.files">
+
+                  <!-- Icon Column -->
+                  <ng-container matColumnDef="file_TYPE">
+                    <th mat-header-cell *matHeaderCellDef> File Type </th>
+                    <td mat-cell *matCellDef="let file">
+                      <mat-icon aria-hidden="false" aria-label="Example home icon" style="color: grey;">
+                        {{file.type}}
+                      </mat-icon>
+                    </td>
+                  </ng-container>
+
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="file_NAME" style="color: red;">
+                    <th mat-header-cell *matHeaderCellDef> File Name </th>
+                    <td mat-cell *matCellDef="let file" (click)="downloadfile(file)"
+                      style="cursor: pointer;" matTooltip="Download File" matTooltipPosition="below"> {{file.name}} <sup><img
+                          src="../../../assets/verify1.svg" height="15px" width="15px"></sup></td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="preview">
+                    <th mat-header-cell *matHeaderCellDef> Preview </th>
+                    <td mat-cell *matCellDef="let file">
+                      <mat-icon aria-hidden="false" aria-label="Example home icon"
+                        style="color: grey;cursor: pointer;" (click)="openPreviewModal(file.id,file.type,file)"> remove_red_eye
+                      </mat-icon>                                  
+                    </td>
+                  </ng-container>
+
+                  <!-- uploadedDate Column -->
+                  <ng-container matColumnDef="uploadedat">
+                    <th mat-header-cell *matHeaderCellDef> Uploaded On </th>
+                    <td mat-cell *matCellDef="let file">
+                      {{file.sharedDate | date:'dd-MMM-yyy  HH:mm'}}
+                    </td>
+                  </ng-container>
+
+                  <!-- uploadedBy Column -->
+                  <ng-container matColumnDef="uploadedby">
+                    <th mat-header-cell *matHeaderCellDef> Uploaded By </th>
+                    <td mat-cell *matCellDef="let file"> {{file.uploadedby}} </td>
+                  </ng-container>
+
+                  <!-- fileSize Column -->
+                  <ng-container matColumnDef="file_SIZE">
+                    <th mat-header-cell *matHeaderCellDef> Size </th>
+                    <td mat-cell *matCellDef="let file"> {{file.fileSize }} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="archiveFile">
+                    <th mat-header-cell *matHeaderCellDef> Remove</th>
+                    <td mat-cell *matCellDef="let file" (click)="openDeleteFileModal(file);"> 
+                        <img src="../../../assets/delete.svg" height="30px" width="30px" > 
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="reviewFlag">
+                    <th mat-header-cell *matHeaderCellDef> Review Flag</th>
+                    <td mat-cell *matCellDef="let file" > 
+                        <!-- <img src="{{reviewPropertyFlag}}" height="30px" width="30px" >  -->                       
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" 
+                        [ngClass]="file.isViewed===0 || file.isViewed===null?'isNotViewed':'isViewed'" 
+                        [matTooltip]="file.isViewed===0 || file.isViewed===null?'File not viewed':'File viewed'"
+                        style="color: green;font-size: 15px;opacity: 0.8;cursor: pointer;">
+                          fiber_manual_record 
+                        </mat-icon>
+                        <!-- {{element.files.data.length}} -->
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="innerDisplayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: innerDisplayedColumns;"></tr>
+                </table>
+
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let element; columns: columnsToDisplay;let index = dataIndex"
+          [class.example-element-row]="element.files?.length"
+          [class.example-expanded-row]="expandedElement === element" (click)="toggle(element,index)">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" (click)="selection.toggle(row)"></tr>
+      </table>
+
+      <div *ngIf="noDataFound" style="text-align: center;">
+        <img src="../../../assets/nodatafound.png" >
+      </div>
+
+      <div *ngIf="isManager && searchFilterFlag" style="text-align: center;padding: 10px;margin-top: 10%;font-weight: 600;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+       
+       
+        <mat-form-field style="width: 300px;" *ngIf="isManager && searchFilterFlag">
+          <mat-label>Search By User</mat-label>
+          <input type="text"
+                placeholder=""
+                #input
+                class="search"
+                matInput
+                
+                [formControl]="searchFilterControl"
+                [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let user of filteredOptions | async" [value]="user"  (click)="searchFilterSubmit()">
+              {{user}}
+            </mat-option>
+        </mat-autocomplete>
+        </mat-form-field>
+        <div>
+          Please select user in <span style="font-weight: bold;">Search By User</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <ng-template #preview style="margin: 0 auto;">
+    <block-ui>
+    <h2 mat-dialog-title>File Preview</h2>
+    <mat-dialog-content >
+      <div style="position:relative; width:100%; height:450px; padding-bottom:56.25%;">        
+        <iframe style="position:absolute; left:0; top:0; width:100%; height:100%"
+        [src]="tryDoctype" allowfullscreen>
+        </iframe>
+      </div>  
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button color="warn" style="width: 10%;" (click)="previewClose()">Close</button>
+    </mat-dialog-actions>
+    </block-ui>
+  </ng-template>
+
+
+  <ng-template #deleteFolderModal let-data>
+    <div>
+        <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;overflow: hidden;">
+         <span><i class="fas fa-info-circle fa-lg"></i></span> Do you want to Delete the Folder ?
+         
+        </mat-dialog-content >    
+            <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+              <button   mat-raised-button color="warn"  style="width: 40%;" (click)="close()">No</button>
+              <button (click)="removeFolder(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Yes</button>
+        </mat-dialog-actions>
+    </div>
+  </ng-template>
+
+  <ng-template #deleteFileModal let-data>
+    <div>
+        <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;overflow: hidden;">
+         <span><i class="fas fa-info-circle fa-lg"></i></span> Do you want to Delete the File ?
+         
+        </mat-dialog-content>    
+            <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+              <button   mat-raised-button color="warn"  style="width: 40%;" (click)="close()">No</button>
+              <button (click)="removeFile(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Yes</button>
+        </mat-dialog-actions>
+    </div>
+  </ng-template>
+
+  <ng-template #reAssignModal style="margin: 0 auto;" let-data>
+    <!-- <block-ui> -->
+    <h2 mat-dialog-title>Re-Assign</h2>
+    <mat-dialog-content style="overflow: hidden;">
+     
+      <div class="container" style="padding-top: 10%;">
+        <form [formGroup]="reAssignModalForm" (ngSubmit)="onReassignSubmit()">
+         
+          <div class="row justify-content-center form-group">
+            <div class="col-12">
+              <div>
+              <mat-form-field class="example-full-width1" style="width: 100%;">              
+                <mat-label>Current User</mat-label>
+                <input matInput readonly [value]="selectedUser">
+              </mat-form-field>
+              </div>
+
+              <div>
+              <mat-form-field class="example-full-width1" style="width: 100%;">
+                <mat-select formControlName="newUser" disableOptionCentering placeholder="Select New User">
+                  <mat-option [value]="option.id" *ngFor="let option of searchUsersListForReassign">{{ option.name }}</mat-option>
+                </mat-select>              
+              </mat-form-field>
+            </div>
+
+            </div>
+          </div>
+  
+          <div class="row justify-content-center">          
+  
+            <div style="display: flex;justify-content: center;">
+              <button mat-raised-button type="button" color="warn" style="width: 100px;margin-right:3%" (click)="close()">Close</button>
+              <button mat-raised-button type="submit" color="primary" style="width: 100px">Re-Assign </button>
+              <!--  [class.spinner]="sendingProgressBar" [disabled]="sendingProgressBar" -->
+            </div>
+          </div>
+          
+        </form>
+      </div>
+  
+    </mat-dialog-content>
+   
+  <!-- </block-ui> -->
+  </ng-template>
+
+  </block-ui>

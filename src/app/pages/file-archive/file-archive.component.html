@@ -1,0 +1,78 @@
+<block-ui>
+  <div style="text-align: right;">
+    <mat-form-field style="width:300px !important;font-weight: 500;font-size:medium;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Search" #input class="search" autocomplete="off">
+    </mat-form-field>
+  </div> 
+  
+<div class="example-container" class="mat-elevation-z8">  
+<table mat-table [dataSource]="archivedFilesDataSource"  >
+
+    <ng-container matColumnDef="fileType">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let archivedFile"  >
+       <!--  <mat-icon  *ngIf="archivedFile.folderId || archivedFile.linkId" aria-hidden="false" aria-label="Example home icon" style="color: rgb(207, 219, 28);cursor: pointer;">folder
+        </mat-icon>     -->    
+      
+
+        <img src="../../../assets/folderDownload.svg" height="30px" width="30px" *ngIf="archivedFile.folderId"> 
+        <img src="../../../assets/folderUpload.svg" height="30px" width="30px" *ngIf="archivedFile.linkId"> 
+
+        <mat-icon *ngIf="archivedFile.fileType" aria-hidden="false" aria-label="Example home icon" style="color: grey;cursor: pointer;">{{archivedFile.fileType}}
+        </mat-icon>
+
+        </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="fileName">
+        <th mat-header-cell *matHeaderCellDef> File Name </th>
+        <td mat-cell *matCellDef="let archivedFile"  >
+         <span *ngIf="archivedFile.fileName==='---'"> {{archivedFile.fileName }} </span> 
+         <span *ngIf="archivedFile.fileName!='---'"> {{archivedFile.fileName }} </span>
+        </td>
+    </ng-container>
+    
+    <ng-container matColumnDef="vesselName">
+        <th mat-header-cell *matHeaderCellDef> Vessel Name </th>
+        <td mat-cell *matCellDef="let archivedFile" data-label="Vessel Name :"  class='has_label_on_mobile'>
+          {{archivedFile.vesselName }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="desc">
+        <th mat-header-cell *matHeaderCellDef> Inspection Type </th>
+        <td mat-cell *matCellDef="let archivedFile" data-label="Inspection Type :"  class='has_label_on_mobile'>
+          {{archivedFile.desc }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="archivedOn">
+        <th mat-header-cell *matHeaderCellDef > Archived On </th>
+        <td mat-cell *matCellDef="let archivedFile"  data-label="Archived On :"  class='has_label_on_mobile'>
+          {{archivedFile.archieveDate }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="expiredOn">
+        <th mat-header-cell *matHeaderCellDef>  Permanent Delete on </th>
+        <td mat-cell *matCellDef="let archivedFile"  data-label="Permanent Delete on :"  class='has_label_on_mobile'>
+          {{archivedFile.expiredOn }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="restore">
+        <th mat-header-cell *matHeaderCellDef> Restore </th>
+        <td mat-cell *matCellDef="let archivedFile" style="font-size:medium;"  >
+            <img src="../../../assets/unarchive.svg" class="uploadButton" (click)="restore(archivedFile)" alt="Mail"
+            [matTooltip]="archivedFile.fileType ? archivedFile.uploadDownload==='U'?'File Shared By Third Party':'File Shared To Third Party' : archivedFile.linkId?'Shared By Third Party':'Shared To Third Party'" >
+        </td>
+        <!-- archivedFile.uploadDownload==='U'?'File Shared By Third Party':'File Shared To Third Party' -->
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplayArchivedFiles;sticky:true"></tr>      
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplayArchivedFiles;"></tr>
+</table>   
+
+<div *ngIf="noDataFound" style="text-align: center;">
+  <img src="../../../assets/nodatafound.png" >
+</div>
+
+
+</div>
+</block-ui>

@@ -1,0 +1,402 @@
+<block-ui>
+<mat-toolbar class="header">
+    <mat-toolbar-row>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="start end">
+
+            <span style="font-family:Josefin Sans;font-weight: 500;">FILE TRANSFER APPLICATION</span>
+
+        </div>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="center" *ngIf="APP_CONSTANT.isUAT" >
+            <h2  class="gradient-multiline" style="font-weight: 500;"><span>UAT APPLICATION</span></h2>
+        </div>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <ul fxLayout="row" fxLayoutGap="0px">
+                <!-- <li>
+                    <button mat-icon-button>
+                        <mat-icon class="icon">settings</mat-icon>
+                    </button>
+                </li>
+
+                <li>
+                    <button mat-icon-button>
+                        <mat-icon class="icon">notifications</mat-icon>
+                    </button>
+                </li> -->
+
+                <li>
+                    <button mat-button [matMenuTriggerFor]="menu">
+                        <mat-icon class="icon">person_pin</mat-icon>
+                        <!-- <ngx-avatar [name]="loggedInUserName" size="30" round="true">            
+                        </ngx-avatar> -->
+                    </button>
+                    <mat-menu #menu="matMenu">
+
+                        <!-- <button mat-menu-item >
+                            <mat-icon class="icon">account_circle</mat-icon>
+                            {{loggedInUserName}}
+                        </button>
+
+                        <button mat-menu-item routerLink="/full/changePassword">
+                            <mat-icon class="icon">vpn_key</mat-icon>
+                            Change Password
+                        </button> -->
+
+                        <!--  routerLink="/full/login/newLogin" (click)="logout()"-->
+                        <button mat-menu-item>
+                            <mat-icon class="icon">assignment</mat-icon>
+                            <span><a href="assets/manuals/User_Manual_for_Third_Party_User.pdf" download
+                                    style="color:black">Download User
+                                    Manual</a></span>
+                        </button>
+                        
+                        <button mat-menu-item routerLink="/full/login/{{urlParam}}" (click)="logout()" >
+                            <mat-icon class="icon">exit_to_app</mat-icon>
+                            Log Out
+                        </button>
+                        
+                       
+
+                    </mat-menu>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </mat-toolbar-row>
+</mat-toolbar>
+<div class="main-container">
+    <!-- background: #2b3643;color: #36c6d3 !important; -->
+    <div fxLayout="row" fxLayoutAlign="space-around center" class="vslInformationBar">
+        <div >
+            Vessel Name : {{vesselName}}
+        </div>
+        
+        <div>
+            Inspection Type : {{description}}
+        </div>
+        
+        <div >
+            Vessel IMO No. : {{vesselImoNo}}
+        </div>
+        
+        <div>
+            Official No : {{vesselOfficialNo}}
+        </div>
+        <!-- <div *ngIf="downloadSharedList">
+            Expiry Date : {{downloadExpiryDate }}
+        </div> -->
+    </div>
+
+    <div *ngIf="linkType===1">
+        <!-- <span class="thirdPartyShareLabel">AL SADD - GAS CARRIER - Monday, September 8, 2020 3:15 PM</span>
+        <mat-divider style="margin-bottom: 10px;"></mat-divider> -->
+        
+
+        <ngx-flip [flip]="flip">
+        <div class="card" style="padding: 20px;" front *ngIf="isOnline">
+
+            <div flexLayout="column">
+              <div fxFlex flexLayout="row" fxLayoutGap="0px">
+                <div>
+                    <img src="../../../assets/attachment.svg" class="correct">
+                </div>
+                <!-- <div class="verifyAccText">
+                    File Upload
+                </div> -->
+                <div class="verifyLinkText">
+                    Upload files to the RMI Maritime Administrator File Upload System
+                </div>
+                <div >
+                    <input type="file" id="fileUpload" name="fileUpload" multiple="multiple"
+                        (complete)="onFileComplete($event)" accept="*" style="display:none;"
+                        (change)="onFileChange($event.target.files)" />
+
+                    <img src="../../../assets/files-and-folders.svg" alt="Mail" class="sendBtn" (click)="onClick()"
+                        matTooltip="Click to Upload Files" matTooltipPosition="right" *ngIf="isSubmitBtnClicked" style="margin-bottom:10px;">
+                </div>
+                <ul style="padding: 0px;">
+                    <li *ngFor="let file of files">
+                    <mat-progress-bar class="green-progress" [value]="file.progress" *ngIf="file.inProgress"></mat-progress-bar>
+                    <span id="file-label" *ngIf="file.inProgress">
+                        {{file.data.name}}
+                        <a title="Retry" (click)="retryFile(file)" *ngIf="file.canRetry">
+                            <mat-icon>refresh</mat-icon></a>
+                    </span>
+                    
+                    <!-- <mat-progress-bar class="green-progress" *ngIf="file.isCompress" mode="indeterminate"></mat-progress-bar> -->
+                    <!-- <img src="../../../assets/scan.gif" *ngIf="file.isCompress" class="scanUI"> -->
+                    <diV *ngIf="file.isCompress" id="scanui" style="text-align: center;">
+                        <!-- <i class="fas fa-search-plus" style="font-size:20px;"></i> -->
+                        <img src="../../../assets/virus-scanner.png" width="20px" height="20px">
+                    </diV>
+                    <span *ngIf="file.isCompress" id="file-label" style="margin-top: -40px;"> {{file.data.name}}  file scanning in progress</span>
+                    </li>
+                </ul>
+                    <!-- <button style="width: 200px;" class='btn btn-outline-success btn-sm' (click)='complete()' *ngIf="isUploadBtnClicked">Submit</button>    -->
+              </div>    
+            </div>
+            <div style="color: rgb(221, 27, 101); font-size: 10pt;margin: 5px;"> * Link Expires in {{daysLeftToExpiryUploadLink}} days</div>
+            
+        </div>
+
+        <div class="card" style="padding: 20px;" back *ngIf="isOnline">
+        
+            <div flexLayout="column" *ngIf="completeBackCard">
+                <div fxFlex flexLayout="row" fxLayoutGap="0px">
+                    <div>
+                        <img src="../../../assets/thankyou2.svg" class="correct">
+                    </div>
+                    <div class="verifyAccText">
+                        Thank You
+                    </div>
+                    <div class="verifyLinkText">
+                        Files are  Uploaded to the RMI Maritime Administrator File Upload System
+                    </div>                    
+                    <div>
+                    </div>
+                </div>
+            </div>
+            <div style="color: rgb(221, 27, 101); font-size: 10pt;margin: 5px;" *ngIf="completeBackCard"> 
+                * Please close the window for security reason.
+            </div>
+
+            <div *ngIf="virusBackCard" flexLayout="column">
+                <div fxFlex flexLayout="row" fxLayoutGap="0px">
+                    <div>
+                        <img src="../../../assets/virus.svg" class="correct">
+                    </div>
+                    <div >
+                        <span class="verifyAccText">Virus Detected</span>
+                    </div>
+                    <div style="font-size: smaller;">
+                        Scanned By <sup ><img src="../../../assets/clamAV.png" height="20px" width="20px"></sup> ClamAV
+                    </div>
+                    <div class="verifyLinkText" style="color: red;">
+                        The file upload operation did not complete successfully because the file you are uploading contains a virus and as such has been deleted.
+                        Please contact {{emailBy}} if you are not able to upload a clean file  
+                    </div>
+                    <div class="verifyLinkText">
+                        <ul *ngFor="let errFiles of errorFilesArray">
+                            <li style="list-style: inside;display: list-item;">{{errFiles}} - <span style="font-weight: bold;"> File Deleted</span> </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <img src="../../../assets/reupload.svg" (click)="reUpload()" class="sendBtn" matTooltip="Proceed to File Upload" matTooltipPosition="right">
+                    </div>
+                    <div>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+
+        <!-- Internet Related UI -->
+                <div *ngIf="!isOnline" front class="card " style="padding: 30px;">
+                    <div>
+                        <i class="fas fa-exclamation-triangle fa-2x" ></i>
+                    </div>
+                    <div class="verifyAccText">
+                        No Internet 
+                    </div>
+                    <div class="verifyLinkText" style="color: red;">
+                        Please check the internet connection and try again  
+                    </div>
+                </div>
+
+                <div *ngIf="!isOnline" back class="card " style="padding: 30px;">
+                    <div>
+                        <i class="fas fa-exclamation-triangle fa-2x" ></i>
+                    </div>
+                    <div class="verifyAccText">
+                        No Internet 
+                    </div>
+                    <div class="verifyLinkText" style="color: red;">
+                        Please check the internet connection and try again  
+                    </div>
+                </div>
+        <!-- Internet Related UI -->
+
+        </ngx-flip>
+
+        <div class="submit-btn">
+            <button style="width: 200px;vertical-align: middle;background: #2b3643;color: #36c6d3!important;border-radius: 6px;" class='btn btn-success btn-sm' (click)="openCompleteModal()" [disabled]="!isSubmitBtnClicked"><span style="font-size: medium;font-family: 'Poppins', sans-serif; ">Submit</span></button>            
+        </div>
+
+    </div>
+
+    <div *ngIf="linkType===1 || linkType===3">
+        <span class="thirdPartyShareLabel"  style="display: flex;justify-content: space-between;">   {{uploadListCaption}}         
+        </span>
+        <span style="color: red;padding-left: 1%;padding-top:1%;font-family: monospace;display: flex;justify-content: flex-start;" *ngIf="downloadSharedList">
+            *Link Expires on {{downloadExpiryDate | date:'dd-MMM-yyy'}} 
+        </span>
+        <!-- <mat-divider style="font-weight: bold;"></mat-divider> -->
+        <div style="margin: 20px;" [ngClass] = "linkType===1 ? 'table-containerUpload' : 'table-containerDownload'" class="table-container">
+            <table mat-table [dataSource]="dataSource" #table class="mat-elevation-z8">
+                <!-- Icon Column -->
+                <ng-container matColumnDef="icon">
+                    <th mat-header-cell *matHeaderCellDef class="table-header"> File Type </th>
+                    <td mat-cell *matCellDef="let file">
+                        <mat-icon aria-hidden="false" aria-label="Example home icon" style="color: grey;"> {{file.icon}}
+                        </mat-icon>
+                    </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name" *ngIf="linkType===1">
+                    <th mat-header-cell *matHeaderCellDef class="table-header"> File Name </th>
+                    <td mat-cell *matCellDef="let file" style="cursor: pointer;" (click)="downloadfile(file.id)"   > {{file.name}}<sup *ngIf="isProgressCompleted"><img src="../../../assets/verify1.svg" height="20px" width="20px"></sup> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name" *ngIf="linkType===3">
+                    <th mat-header-cell *matHeaderCellDef class="table-header"> File Name </th>
+                    <td mat-cell *matCellDef="let file" style="cursor: pointer;" (click)="downloadfile(file.fileId)" > {{file.name}}<sup *ngIf="isProgressCompleted"><img src="../../../assets/verify1.svg" height="20px" width="20px"></sup> </td>
+                </ng-container>
+
+                <!-- uploadedDate Column -->
+                 <ng-container matColumnDef="sharedDate">
+                    <th mat-header-cell *matHeaderCellDef class="table-header"> Uploaded On </th>
+                    <td mat-cell *matCellDef="let file"> {{file.sharedDate | date:'dd-MMM-yyy  HH:mm'}} </td>
+                </ng-container>
+
+                <!-- uploadedBy Column -->
+                <!-- <ng-container matColumnDef="uploadedBy">
+                    <th mat-header-cell *matHeaderCellDef> Uploaded By </th>
+                    <td mat-cell *matCellDef="let file"> {{file.uploadedBy}} </td>
+                </ng-container> -->
+
+                <ng-container matColumnDef="preview" *ngIf="linkType===1">
+                    <th mat-header-cell *matHeaderCellDef class="table-header"> Preview </th>
+                    <td mat-cell *matCellDef="let file">
+                      <mat-icon aria-hidden="false" aria-label="Example home icon"
+                        style="color: grey;cursor: pointer;" (click)="openPreviewModal(file.id,file.type)"> remove_red_eye
+                      </mat-icon>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="preview" *ngIf="linkType===3">
+                    <th mat-header-cell *matHeaderCellDef class="table-header"> Preview </th>
+                    <td mat-cell *matCellDef="let file">
+                      <mat-icon aria-hidden="false" aria-label="Example home icon"
+                        style="color: grey;cursor: pointer;" (click)="openPreviewModal(file.fileId,file.type)"> remove_red_eye
+                      </mat-icon>
+                    </td>
+                  </ng-container>
+
+                <!-- fileSize Column -->
+                <ng-container matColumnDef="fileSize">
+                    <th mat-header-cell *matHeaderCellDef class="table-header"> Size </th>
+                    <td mat-cell *matCellDef="let file"> {{file.fileSize}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="add">
+                   
+                            <th mat-header-cell *matHeaderCellDef >
+                            <div *ngIf='scanningFnEnable'>
+                                File Scanning
+                            </div>   
+                            <div *ngIf='uploadingFnEnable'>
+                                File Uploading Progress
+                            </div>  
+                           
+                            </th>
+                   
+                    <td mat-cell *matCellDef="let file" > 
+
+                        <div *ngIf='scanningFnEnable'>
+                            <mat-progress-bar [value]="file.fileData.progress"></mat-progress-bar>
+                            <span id="file-label"> Virus Scan ...</span>
+                        </div>
+
+                        <div *ngIf='uploadingFnEnable'>
+                            <mat-progress-bar class="green-progress" [value]="file.fileData.progress"></mat-progress-bar>
+                            <span id="file-label"> Uploading File ...</span>
+                        </div>
+                       
+                            <!-- {{file.name}} -->
+                            <!-- <a title="Retry" (click)="retryFile(file.fileData)" *ngIf="file.fileData.canRetry">
+                                <mat-icon>refresh</mat-icon>
+                            </a>
+                            <a title="Cancel" (click)="cancelFile(file.fileData)" *ngIf="file.fileData.canCancel">
+                                <mat-icon>cancel</mat-icon>
+                            </a> -->
+                        
+
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="remove">
+                    <th mat-header-cell *matHeaderCellDef class="table-header"> Remove</th>
+                    <td mat-cell *matCellDef="let file;let i = index"  > 
+                        <button *ngIf="completeBackCard" style="background: none;border: none; opacity: 0.5; cursor: not-allowed;" ><img src="../../../assets/delete.svg" height="30px" width="30px"> </button>
+                        <button *ngIf="!completeBackCard" style="background: none;border: none;" (click)="openRemoveModal(file,i)"><img src="../../../assets/delete.svg" height="30px" width="30px"> </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky:true" class="table-header-color"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+
+
+</div>
+
+<!-- <div *ngIf="temp" style="width: 200px;height:200px">
+<iframe style="position:absolute; left:0; top:0; width:100%; height:100%"
+[src]="tryDoctype" allowfullscreen>
+</iframe>
+</div> -->
+
+</block-ui>
+
+<ng-template #preview style="margin: 0 auto;">
+    <block-ui>
+    <h2 mat-dialog-title>File Preview</h2>
+    <mat-dialog-content >
+      <div class="preview-modal">
+        <iframe style="position:absolute; left:0; top:0; width:100%; height:100%"
+        [src]="tryDoctype" allowfullscreen>
+        </iframe>
+      </div>  
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-raised-button color="warn" style="width: 10%;" (click)="close()">Close</button>
+    </mat-dialog-actions>
+    </block-ui>
+  </ng-template>
+
+  <ng-template #fileRemoveModal let-data>
+    <div>
+        <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;">
+         <span><i class="fas fa-info-circle fa-lg"></i></span> Do you want to Delete the File 
+         
+        </mat-dialog-content>    
+            <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+              <button   mat-raised-button color="warn"  style="width: 40%;" (click)="close()">No</button>
+              <button (click)="removeUploaded(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Yes</button>
+        </mat-dialog-actions>
+    </div>
+</ng-template>
+
+<ng-template #complete>
+    <div>
+            <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;">
+            <span><i class="fas fa-info-circle fa-lg"></i></span> Once you click the <strong>Submit</strong>, you will not be able to upload any additional files or photos 
+            
+            </mat-dialog-content>    
+            <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+              <button   mat-raised-button color="warn"  style="width: 40%;" (click)="close()">Cancel</button>
+              <button   mat-raised-button color="primary" style="width: 40%;background: green;" (click)="completeLink()">Yes, Submit</button>
+            </mat-dialog-actions>
+    </div>
+</ng-template>

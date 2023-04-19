@@ -1,0 +1,64 @@
+<div class="sidebar">
+    <div>
+        <h3 class="d-flex align-items-center">File Transfer Application</h3>
+        <!-- <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <button mat-icon-button >
+            <mat-icon style="color: white;">menu</mat-icon>
+          </button>
+         </div>    -->
+    </div>
+
+    <!-- <ul>
+        <li *ngFor="let sidemenu of sidemenus">
+            <a routerLink="{{ sidemenu.path }}">
+                <i class="{{ sidemenu.icon }}" id="icon"></i>{{sidemenu.name}}
+            </a>
+        </li>
+    </ul> -->
+
+    <ul>
+        <li *ngFor="let sidemenu of sidemenus;let i=index;" routerLinkActive="active"  >
+            <div class="row" >
+    
+                <div class="col-sm-10" >
+                    <a routerLink="{{ sidemenu.path }}" 
+                    routerLinkActive="active"                  
+                    (click)="expandView(sidemenu.name,i)" *ngIf="sidemenu.isNested === false">
+                        <i class="{{ sidemenu.icon }}" id="icon" ></i>{{sidemenu.name}}
+                    </a>
+                    <a style="cursor: pointer;"  
+                     
+                    (click)="expandView(sidemenu.name,i)" *ngIf="sidemenu.isNested === true ">
+                        <i class="{{ sidemenu.icon }}" id="icon" ></i>{{sidemenu.name}}
+                    </a>
+    
+                </div>
+
+                <div class="col-sm-2" *ngIf="sidemenu.isNested === true ">
+                    <i style="margin-left: 10px;color: white; cursor: pointer;" (click)="expandView(sidemenu.name,i)"
+                        [class]="sidemenu.name === selectedMenuName && selectedIndex === i && sidemenu.isNested?'fas fa-angle-up':'fas fa-angle-down'" id="icon"></i>
+                </div>
+
+                <!-- <div class="col-sm-2" *ngIf="sidemenu.name ==='File Share Via' ">
+                    <i style="margin-left: 10px;color: white; cursor: pointer;" (click)="expandView()"
+                        [class]="expandToggle?'fas fa-angle-up':'fas fa-angle-down'" id="icon"></i>   && sidemenu.toggleId
+                </div> -->
+    
+                <div style="margin-top: 20px;margin-left: 28px;color: white;" *ngIf="sidemenu.name === selectedMenuName  && selectedIndex=== i && sidemenu.isNested">
+                    <ul style="list-style: none;">
+                        <li *ngFor="let subMenu of subSideMenu" routerLinkActive="active">
+                            <a routerLink="{{subMenu.path}}" routerLinkActive="active">
+                                {{subMenu.name}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+    
+    
+        </li>
+    </ul>
+
+</div>

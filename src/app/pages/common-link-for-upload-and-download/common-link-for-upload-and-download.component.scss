@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+
+:host{
+  ngx-flip{
+    height: 30vh;
+    width: 50vw;
+    margin: auto;
+  }
+}
+
+ .header{
+    background: rgb(39, 143, 186);
+    color: white;
+    border-bottom: 1px solid #e0e4e8;
+  }
+
+  table {
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .mat-header-cell{
+    font-weight: bold;
+  }
+    
+
+  .correct{
+    width: 50px;
+    height: 50px;
+  }
+
+  .virus{
+    width: 25px;
+    height: 25px;
+  }
+
+  .verifyAccText{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: bold;
+    font-size: medium;
+    margin-bottom: 10px;
+  }
+
+  .verifyLinkText{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 495;
+    font-size: medium;
+    margin-bottom: 10px;
+  }
+
+  .card {
+    background: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    //box-shadow: 0 10px 20px rgba(var(--palette-grey-2-rgb),.15),0 3px 6px rgba(var(--palette-grey-2-rgb),.1);
+    min-height: 20vh;
+    height: auto;
+    width: 50vw;
+    margin: auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 25px 0px 25px 0px;
+  }
+
+  .virusCard{
+    background: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    height: auto;
+    width: 50vw;
+    margin: auto;
+    margin-bottom: 5px;
+    padding: 5px;
+  }
+
+  .sendBtn{
+    width: 30px;
+    height: 30px;
+    z-index: 2;
+    cursor: pointer;
+  }
+
+  .thirdPartyShareLabel{
+    font-weight: 500;
+    margin-top: 20px;
+  }
+
+
+
+  ul,
+li {
+      margin: 0;
+      padding: 10;
+      list-style: none;
+}
+
+#file-label {
+      display: inline-flex;
+      vertical-align: middle;
+      font-size: 12px;
+      line-height: 18px;
+}
+
+#file-label mat-icon {
+      font-size: 18px;
+      text-align: center;
+}
+
+#file-label a {
+      cursor: pointer;
+}
+
+.green-progress .mat-progress-bar-fill::after {
+  background-color: green !important;
+}
+
+::ng-deep .mat-progress-bar.green-progress .mat-progress-bar-fill::after {
+  background-color: green;
+}

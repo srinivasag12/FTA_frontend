@@ -1,0 +1,98 @@
+.card {
+  background: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  //box-shadow: 0 10px 20px rgba(var(--palette-grey-2-rgb),.15),0 3px 6px rgba(var(--palette-grey-2-rgb),.1);
+  max-width: 100%;
+  //margin: auto;
+  //text-align: center;
+  // padding: 20px;
+  // border-radius: 25px 0px 25px 0px;
+}
+
+table {
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+  font-family: "Josefin Sans", sans-serif;
+}
+.table-container {
+  max-height: 500px;
+  overflow: auto;
+}
+
+.thirdPartyShareLabel {
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.mat-cell {
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.folder-not-view {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+}
+
+.titleAndDays {
+  display: flex;
+  align-content: space-around;
+}
+
+.box {
+  padding: 0 10px 0 10px;
+}
+.box .inner {
+  background-color: #fff;
+}
+
+.mat-column-email,
+.mat-column-vesselname {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  // margin-right: 10px;
+  //text-align: center;
+}
+
+.mat-column-filename,
+.mat-column-sharedby,
+.mat-column-reassignedto {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  margin-right: 10px;
+}
+
+// .mat-column-description,
+// .mat-column-imo,
+// .mat-column-vslofficialno {
+//   text-align: center;
+//   justify-content: center;
+// }
+
+::ng-deep
+  .mat-button-toggle-appearance-standard
+  .mat-button-toggle-label-content {
+  line-height: 20px !important;
+}
+::ng-deep .mat-toggle-button-checked {
+  color: red !important;
+}
+
+/* .mat-button-toggle-group {
+  line-height: 50px !important;
+
+  height: 50px;
+}
+
+.mat-toggle-button-checked {
+  color: red;
+} */

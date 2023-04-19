@@ -1,0 +1,152 @@
+.thirdPartyShareLabel{
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+
+table {
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  //++++++++++++++++++++
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+   cursor:pointer;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+
+  .inner-table {
+    width: 100%;
+  }
+  
+  .inner-table mat-form-field {
+    margin-top: 15px;
+    width: 100%;
+  }
+  
+  //++++++++++++++++++++
+  
+  
+  .mat-header-cell{
+    font-weight: bold;
+  }
+
+  .inner-table > .mat-column-file_NAME {
+    max-width: 150px;
+    word-wrap: break-word !important;
+    white-space: unset !important;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    margin-right: 50px;
+  }
+
+  mat-chip {
+    max-width: 200px;
+  }
+
+  .mat-column-archiveFolder,.mat-header-archiveFolder,.mat-column-reviewFlag,.mat-column-reassign,.mat-column-preview{
+    text-align: center;
+    justify-content:center;
+    margin-left: 5px;
+  }
+
+.mat-header-file_NAME,.mat-column-preview,.mat-column-uploadedat,.mat-column-uploadedby,.mat-column-file_SIZE,.mat-column-archiveFile,.mat-column-reviewFlag{
+    text-align: center;
+    justify-content:center;
+  }
+
+  .mat-column-file_NAME{
+    max-width: 150px;
+    word-wrap: break-word !important;
+  }
+
+  .isViewed{
+    color: #40c057!important;
+  }
+
+  .isNotViewed{
+    color: #f55252!important;
+  }
+
+
+  .reviewStatus1{
+    background-color: #e0fbda!important;
+    color: #40c057!important;
+    border-color: #e0fbda;
+  }
+
+  .reviewStatus2{
+    background-color: #fee8dc!important;
+    color: #f55252!important;
+    border-color: #fee8dc;
+  }
+
+  .reviewStatus3{
+    background-color: #feefd0!important;
+    color: #f77e17!important;
+    border-color: #feefd0;
+  }
+
+  .reviewStatus4{
+    background-color: #d5f1fd!important;
+    color: #2f8be6!important;
+    border-color: #d5f1fd;
+  }
+
+  .reviewStatus5{
+    background-color: #efdeff!important;
+    color: #975aff!important;
+    border-color: #efdeff;
+  }
+
+  .search-filter{
+    display: flex;
+    justify-content: center;
+  }
+
+  .isManager{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .isUser{
+    display: flex;
+    justify-content: flex-end;
+  }
+
+
+  /* RESPONSIVE CODE BLOCK */
+
+
+  @media screen and (max-width: 1300px ) and (min-width :650px){
+  
+    .mat-cell{
+      font-size: small;
+    }
+
+    .mat-header-cell{
+      font-size: xx-small;
+    }
+
+    .generateBtn{
+      font-size: xx-small;
+    }
+  }

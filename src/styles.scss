@@ -1,0 +1,52 @@
+/* You can add global styles to this file, and also import other style files */
+@import '../node_modules/@syncfusion/ej2-base/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';  
+@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
+@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+
+button:focus, button:active:focus, button.active:focus {
+	outline: none !important;
+	outline-style: none !important;
+	}
+
+	
+body {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+}
+html {
+	padding: 0;
+	margin: 0;
+    height: 100% ;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-select-panel{
+	position: absolute;
+	top: 32px;
+	left: 4px;
+	min-width: calc(100% + 22px) !important;
+	border-radius: 0px !important;
+	border-top-style: none;
+  }
+
+  .active {
+	color: ghostwhite !important;
+	background-color: #594f8d;
+  }
+
+//   .sidebar ul li:hover{
+// 	background-color: #594f8d;
+//   }
+	  
+//    .sidebar ul li:hover a{
+// 	color: #fff;
+// 	border-left: 5px solid rgba(255,255,255,0.05);
+//   }
+  
+  
+
+

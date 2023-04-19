@@ -1,0 +1,73 @@
+<mat-toolbar class="header">
+    <mat-toolbar-row>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="start end">
+
+            <button mat-icon-button (click)="toggleSidebar()">
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <span style="font-family:Josefin Sans;font-weight: 400;">{{title}}</span>
+
+           
+
+        </div>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="start center" *ngIf="APP_CONSTANT.isUAT">
+            <h2 class="gradient-multiline" style="font-weight: 500;"><span>UAT APPLICATION</span></h2>
+        </div>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <ul fxLayout="row" fxLayoutGap="0px">
+                <li>
+                    <button mat-icon-button>
+                        <mat-icon class="icon">settings</mat-icon>
+                    </button>
+                </li>
+
+                <li>
+                    <button mat-icon-button>
+                        <mat-icon class="icon">notifications</mat-icon>
+                    </button>
+                </li>
+
+                <li>
+                    <button mat-button [matMenuTriggerFor]="menu">
+                        <!-- <mat-icon class="icon">person_pin</mat-icon> -->
+                        <ngx-avatar [name]="loggedInUserName" size="30" round="true">            
+                        </ngx-avatar>
+                    </button>
+                    <mat-menu #menu="matMenu">
+
+                        <button mat-menu-item >
+                            <mat-icon class="icon">account_circle</mat-icon>
+                            {{loggedInUserName}}
+                        </button>
+
+                        <button mat-menu-item routerLink="/full/changePassword">
+                            <mat-icon class="icon">vpn_key</mat-icon>
+                            Change Password
+                        </button>
+
+                        <button mat-menu-item>
+                            <mat-icon class="icon">assignment</mat-icon>
+                            <span><a href="assets/manuals/User_Manual_for_IRI_User.pdf" download
+                                    style="color:black">Download User
+                                    Manual</a></span>
+                        </button>
+
+                        <button mat-menu-item routerLink="/full/login/newLogin" (click)="signOut()">
+                            <mat-icon class="icon">exit_to_app</mat-icon>
+                            Sign Out
+                        </button>
+
+                       
+
+                    </mat-menu>
+                </li>
+
+            </ul>
+
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

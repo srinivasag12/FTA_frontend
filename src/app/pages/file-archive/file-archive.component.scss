@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans&display=swap');
+
+table {
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .table-container {
+    max-height: 500px;
+    overflow: auto;
+  }
+    
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  .mat-header-cell{
+    font-weight: bold;
+  }
+
+  .mat-cell {
+    font-family: 'Josefin Sans', sans-serif;
+  }
+
+  .mat-column-fileName,.mat-column-vesselName{
+    text-align: center
+  }
+
+  .uploadButton{
+    width: 30px;
+    height: 30px;
+    z-index: 2;
+    cursor: pointer;
+    margin: 5px;
+  }
+
+  ::ng-deep  .mat-tooltip {
+    /* your own custom styles here */ 
+    /* e.g. */
+    background-color: black !important;
+    color: whitesmoke !important;
+}
+
+/* .mat-column-vesselName {
+  width: 250px !important;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+ 
+}
+
+.mat-column-fileName {
+  width: 250px !important;
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+ 
+} */
+
+
+
+
+@media screen and (max-width: 960px) {
+  .mat-elevation-z8 {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .mat-header-row {
+    display: none;
+  }
+
+
+  .mat-column-fileType,.mat-column-vesselName,.mat-column-desc,.mat-column-archivedOn,.mat-column-expiredOn,.mat-column-restore{
+    text-align: center
+  }
+
+  tbody {
+    display: block;
+    width: 100%;
+  }
+  
+  .mat-table {
+    background: transparent;
+    * {
+      box-sizing: border-box;
+    }
+
+    .mat-row {
+      display: block;
+      overflow: hidden;
+      height: auto;
+      position: relative;
+      clear: both;
+      box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+      background-color: #fff;
+      border-radius: 3px;
+      + .mat-row {
+        margin-top: 24px;
+      }
+    }
+
+    .mat-cell {
+      display: block;
+      width: 100%;
+      padding: 0 16px;
+      margin: 16px 0;
+      border: 0 none;
+      &:first-child {
+        padding: 0 48px 0 16px;
+        a {
+          font-size: 20px;
+          // font-weight: 400;
+          color: inherit;
+        }
+        &:before {
+          display: none;
+        }
+      }
+      &.m-card-sub-title {
+        margin-top: -8px;
+        padding: 0 48px 0 16px;
+        color: rgba(0,0,0,.54);
+      }
+    }
+
+    .has_label_on_mobile {
+      &:before {
+        content: attr(data-label);
+        display: inline-block;
+        font-weight: normal;
+      }
+    }
+
+    .mat-column-star {
+      width: auto;
+      padding: 8px 0 0 !important;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  .mat-paginator {
+    margin-top: 24px;
+  }
+
+}

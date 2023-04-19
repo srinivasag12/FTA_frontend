@@ -1,0 +1,340 @@
+
+
+<div class="container-fluid">
+  <!-- <div class="row" style="margin: auto;">
+    <div *ngFor="let chart of charts" class="col-sm-10 col-md-12 col-lg-6 card p-6 column">
+      <div class="inner" style="margin-right: 10px;">
+        <google-chart  width="600" height="300" [title]="chart.title" [type]="chart.type" [data]="chart.data" [columns]="chart.columns" [options]="chart.options"></google-chart>
+      </div>      
+    </div>
+  </div> -->
+  
+  <div  style="float: right;">
+    <mat-button-toggle-group  name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle value="U" (change)="onValChange($event.value)" checked>
+      <mat-icon>file_upload</mat-icon>UPLOAD
+    </mat-button-toggle>
+    <mat-button-toggle value="D" (change)="onValChange($event.value)">
+      <mat-icon>file_download</mat-icon> DOWNLOAD
+    </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div> 
+ 
+<br><br><br>
+ 
+  <div class="content" fxLayout="row wrap" >
+    <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%"  fxFlex.md="100%" *ngFor="let chart of charts" >
+   
+      <div *ngIf="chart.data.length != 0 && chartEmpty" style="width: 100%;">
+        <!-- <p style="padding:15px;text-align: start;">{{chart.title}}</p> -->
+        <h4 class="folder-not-view">{{chart.title}}</h4>
+        <google-chart  style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);" width="600" height="300"  [type]="chart.type" [data]="chart.data" [columns]="chart.columns" [options]="chart.options"></google-chart>
+      </div>
+
+      <h4 class="folder-not-view" *ngIf="chart.data.length === 0 && chart.type ==='ColumnChart' ">{{chart.title}}</h4>
+      
+      <div *ngIf="chart.data.length === 0 && chart.type ==='ColumnChart' "
+        style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);position: relative;width:95%;height:300px;background-color: white;justify-content: center;font-weight: 500;font-family: 'Poppins';">
+        <!-- <p style="padding:15px;text-align: start;">{{chart.title}}</p> -->
+        <p style="position: absolute;top: 50%;
+                left: 50%;margin: -25px 0 0 -25px;text-anchor: middle;
+          font-family: Arial;
+          font-size: 12;
+          stroke: none;
+          stroke-width: 0;
+          fill: rgb(0, 0, 0);">NO DATA FOUND</p>
+      </div>
+
+      <h4 class="folder-not-view" *ngIf="!chartEmpty && chart.type ==='PieChart'">{{chart.title}}</h4>
+      <div *ngIf="!chartEmpty && chart.type ==='PieChart' "
+        style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);position: relative;width:95%;height:300px;background-color: white;justify-content: center;font-weight: 500;font-family: 'Poppins';">
+        <!-- <p style="padding:15px;text-align: start;">{{chart.title}}</p> -->
+        <p style="position: absolute;top: 50%;
+                left: 50%;margin: -25px 0 0 -25px;text-anchor: middle;
+          font-family: Arial;
+          font-size: 12;
+          stroke: none;
+          stroke-width: 0;
+          fill: rgb(0, 0, 0);">NO DATA FOUND</p>
+      </div>
+
+    </div>
+  </div> 
+  
+  <br>
+  <!-- <br><br><br><br> -->
+
+    <!-- <div class="card">
+      <div  style="float: right;margin: 5px;line-height: 10px;" >
+        <mat-button-toggle-group style="float: right;">
+        <mat-button-toggle value="U" (change)="onValChange($event.value)" checked>
+          <mat-icon>file_upload</mat-icon>UPLOAD
+        </mat-button-toggle>
+        <mat-button-toggle value="D" (change)="onValChange($event.value)">
+          <mat-icon>file_download</mat-icon> DOWNLOAD
+        </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <br>
+      <div class="content" fxLayout="row wrap" >
+        <div fxFlex="50%" fxFlex.xs="100%" fxFlex.sm="100%" *ngFor="let chart of charts" >
+
+          <div *ngIf="chart.data.length != 0 && chartEmpty">
+          <google-chart  width="500" height="300" [title]="chart.title" [type]="chart.type" [data]="chart.data" [columns]="chart.columns" [options]="chart.options"></google-chart>
+          </div>
+
+              <div *ngIf="chart.data.length === 0 && chart.type ==='ColumnChart' "
+                style="position: relative;width:500px;height:300px;background-color: white;justify-content: center;font-weight: 500;font-family: 'Poppins';">
+                <p style="padding:15px;text-align: center;">{{chart.title}}</p>
+                <p style="position: absolute;top: 50%;
+                              left: 50%;margin: -25px 0 0 -25px;text-anchor: middle;
+                        font-family: Arial;
+                        font-size: 12;
+                        stroke: none;
+                        stroke-width: 0;
+                        fill: rgb(0, 0, 0);">NO DATA FOUND</p>
+              </div>
+              
+              <div *ngIf="!chartEmpty && chart.type ==='PieChart' "
+                style="position: relative;width:500px;height:300px;background-color: white;justify-content: center;font-weight: 500;font-family: 'Poppins';">
+                
+                <p style="padding:15px;text-align: center;">{{chart.title}}</p>
+                <p style="position: absolute;top: 50%;
+                              left: 50%;margin: -25px 0 0 -25px;text-anchor: middle;
+                        font-family: Arial;
+                        font-size: 12;
+                        stroke: none;
+                        stroke-width: 0;
+                        fill: rgb(0, 0, 0);">NO DATA FOUND</p>
+              </div>
+        </div>
+      </div>
+    </div>
+
+  <br><br><br> -->
+  <div class="row" >
+    <div class="mat-elevation-z8" class="col-sm-12">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h4 class="folder-not-view">{{foldersNotViewedTitle}}</h4>
+        <!-- <mat-form-field >
+          <mat-label>Select Days</mat-label>
+          <mat-select (selectionChange)="onDaysChange($event,'FOLDER NOT VIEWED')">
+            <mat-option *ngFor="let day of days" [value]="day.value">
+              {{day.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+     
+      <mat-table [dataSource]="folderNotViewedDS" class="card">
+       
+           <!-- Email Column -->
+           <ng-container matColumnDef="email">
+            <mat-header-cell  *matHeaderCellDef > Email </mat-header-cell>
+            <mat-cell *matCellDef="let data" > {{data.email}} </mat-cell>
+          </ng-container>
+
+          <!-- Email Column -->
+          <ng-container matColumnDef="vesselname">
+            <mat-header-cell  *matHeaderCellDef > Vessel Name </mat-header-cell>
+            <mat-cell *matCellDef="let data" > {{data.vesselname}} </mat-cell>
+          </ng-container>
+
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <mat-header-cell  *matHeaderCellDef > Inspection Type </mat-header-cell>
+            <mat-cell *matCellDef="let data" > {{data.description}} </mat-cell>
+          </ng-container>
+
+          <!-- Imo Column -->
+          <ng-container matColumnDef="imo">
+            <mat-header-cell  *matHeaderCellDef > IMO No. </mat-header-cell>
+            <mat-cell *matCellDef="let data" > {{data.imo}} </mat-cell>
+          </ng-container>
+
+          <!-- Official Column -->
+          <ng-container matColumnDef="vslofficialno">
+            <mat-header-cell  *matHeaderCellDef > Official No. </mat-header-cell>
+            <mat-cell *matCellDef="let data" > {{data.vslofficialno}} </mat-cell>
+          </ng-container>
+
+          <!-- Completed On Column -->
+          <ng-container matColumnDef="completedon" >
+            <mat-header-cell  *matHeaderCellDef >
+              <div *ngIf="UploadOrDownload === 'U'"> Submitted On</div>
+              <div *ngIf="UploadOrDownload === 'D'"> Created On</div>
+              </mat-header-cell>            
+            <mat-cell *matCellDef="let data" > {{data.completedon}} </mat-cell>
+          </ng-container>
+
+           <!-- Official Column -->
+           <ng-container matColumnDef="owner">
+            <mat-header-cell  *matHeaderCellDef > Owner </mat-header-cell>
+            <mat-cell *matCellDef="let data" > {{data.owner}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayFolderNotViewedColumns;sticky:true" ></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayFolderNotViewedColumns;"></mat-row>
+      </mat-table>
+
+      <div style="text-align: center;padding: 1em;" *ngIf="noDataFoundFoldersNotViewed" class="card">
+        <p style="font-weight: bold;font-size: medium;font-family: Georgia, 'Times New Roman', Times, serif;">No Data Found</p>
+     </div>
+
+      <mat-paginator [length]="100"
+              [pageSize]="5"
+              [pageSizeOptions]="[5]"
+              (page)="pageEvent = handlePage($event,'FOLDER NOT VIEWED')" class="card">
+      </mat-paginator>
+    </div>
+  </div>
+
+  <br>
+
+  <div class="row" *ngIf="!isAdmin">
+    <div class="mat-elevation-z8" class="col-sm-12">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h4 class="folder-not-view">{{filesGoingToDeleteTitle}} </h4>
+       <!--  <mat-form-field >
+          <mat-label>Select Days</mat-label>
+          <mat-select (selectionChange)="onDaysChange($event,'FILES GOING TO DELETE')">
+            <mat-option *ngFor="let day of days" [value]="day.value">
+              {{day.viewValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+      </div>
+
+      <mat-table [dataSource]="filesGoingToDeleteDS" class="card">
+
+        <!-- Filename Column -->
+        <ng-container matColumnDef="filename">
+         <mat-header-cell  *matHeaderCellDef > Filename </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.filename}} </mat-cell>
+       </ng-container>
+
+       <!-- Shared By Column -->
+       <ng-container matColumnDef="sharedby">
+         <mat-header-cell  *matHeaderCellDef > Email </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.sharedby}} </mat-cell>
+       </ng-container>
+
+       <!-- Will Be Deleted on Column -->
+       <ng-container matColumnDef="willbedeletedon">
+         <mat-header-cell  *matHeaderCellDef > Deleted On </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.willbedeletedon}} </mat-cell>
+       </ng-container>
+
+       <!-- Archieved on Column -->
+       <ng-container matColumnDef="archievedon">
+         <mat-header-cell  *matHeaderCellDef > Archieved on </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.archievedon}} </mat-cell>
+       </ng-container>
+
+       <mat-header-row *matHeaderRowDef="displayFilesGoingToDeleteColumns;sticky:true" ></mat-header-row>
+       <mat-row *matRowDef="let row; columns: displayFilesGoingToDeleteColumns;"></mat-row>
+   </mat-table>
+     
+      
+
+      <div style="text-align: center;padding: 1em;" *ngIf="noDataFoundForFilesGoingToDelete" class="card">
+        <p style="font-weight: bold;font-size: medium;font-family: Georgia, 'Times New Roman', Times, serif;">No Data Found</p>
+     </div>
+
+      <mat-paginator [length]="100"
+              [pageSize]="5"
+              [pageSizeOptions]="[5]"
+              (page)="pageEvent = handlePage($event,'FILES GOING TO DELETE')" class="card">
+      </mat-paginator>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="isAdmin">
+    <div class="mat-elevation-z8" class="col-sm-12">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <h4 class="folder-not-view">RECENT RE-ASSIGN FOLDERS </h4>
+      </div>
+
+      <mat-table [dataSource]="reassignDS" class="card">
+
+        <!-- Vessel Name Column -->
+        <ng-container matColumnDef="vesselname">
+         <mat-header-cell  *matHeaderCellDef > Vessel Name </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.vesselname}} </mat-cell>
+       </ng-container>
+
+       <!-- Description Column -->
+       <ng-container matColumnDef="description">
+         <mat-header-cell  *matHeaderCellDef > Inspection Type </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.description}} </mat-cell>
+       </ng-container>
+
+       <!--  Imo No Column -->
+       <ng-container matColumnDef="vslimo">
+         <mat-header-cell  *matHeaderCellDef > IMO No. </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.vslimo}} </mat-cell>
+       </ng-container>
+
+       <!-- Official No Column -->
+       <ng-container matColumnDef="vslofficialno">
+         <mat-header-cell  *matHeaderCellDef > Official No. </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.vslofficialno}} </mat-cell>
+       </ng-container>
+
+       <!--  Submitted By Column -->
+       <ng-container matColumnDef="submittedby">
+         <mat-header-cell  *matHeaderCellDef > Submitted By </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.submittedby}} </mat-cell>
+       </ng-container>
+
+       <!-- Completed On Column -->
+       <ng-container matColumnDef="completedon">
+         <mat-header-cell  *matHeaderCellDef > Completed On </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.completedon}} </mat-cell>
+       </ng-container>
+
+       <!-- Reassigned To Column -->
+       <ng-container matColumnDef="reassignedto">
+         <mat-header-cell  *matHeaderCellDef > Reassigned To </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.reassignedto}} </mat-cell>
+       </ng-container>
+
+       <!-- Reassigned On Column -->
+       <ng-container matColumnDef="reassignedon">
+         <mat-header-cell  *matHeaderCellDef > Reassigned On </mat-header-cell>
+         <mat-cell *matCellDef="let data" > {{data.reassignedon}} </mat-cell>
+       </ng-container>
+
+
+       <mat-header-row *matHeaderRowDef="displayReassignColumns;sticky:true" ></mat-header-row>
+       <mat-row *matRowDef="let row; columns: displayReassignColumns;"></mat-row>
+   </mat-table>
+     
+      
+
+      <div style="text-align: center;padding: 1em;" *ngIf="noDataFoundForRecentReassign" class="card">
+        <p style="font-weight: bold;font-size: medium;font-family: Georgia, 'Times New Roman', Times, serif;">No Data Found</p>
+     </div>
+
+      <mat-paginator [length]="100"
+              [pageSize]="5"
+              [pageSizeOptions]="[5]"
+              (page)="pageEvent = handlePage($event,'REASSIGN')" class="card">
+      </mat-paginator>
+    </div>
+  </div>
+
+
+</div>
+
+<ng-template #passwordExpiryNotification let-data>
+  <div >
+    <h4 style="font-family: 'Josefin Sans', sans-serif;">
+      <i class="fa fa-bell" aria-hidden="true"></i>  Password Expiry Notification
+    </h4>
+     <h4  style="color: hotpink;  font-family: 'Josefin Sans', sans-serif;text-align: center;" >     
+      Your Password will expire in {{data.notification}} days  
+     </h4> 
+    
+  </div>   
+ </ng-template>

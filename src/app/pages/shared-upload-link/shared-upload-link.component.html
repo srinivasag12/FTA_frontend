@@ -1,0 +1,250 @@
+<block-ui>
+  <div style="text-align:right">
+    <mat-form-field  style="width:300px !important;font-weight: 500;font-size:medium;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+      <mat-label>Search</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Search" #input class="search" autocomplete="off">
+    </mat-form-field>
+  </div>
+  
+<div >
+
+  <div class="table-container">
+  
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8 card" matSort (matSortChange)="sortData($event)">
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <mat-header-cell  *matHeaderCellDef > Email </mat-header-cell>
+          <mat-cell *matCellDef="let sharedLink"  matTooltip="Email : {{sharedLink.email}} ,VesselName : {{sharedLink.vesselName}} , Inspection Type : {{sharedLink.linkDesc}}" matTooltipPosition="below" style="cursor: pointer;"
+          data-label="Email :"  class='has_label_on_mobile'> {{sharedLink.email}} </mat-cell>
+        </ng-container>
+      
+        <!-- Request Time Column -->
+        <ng-container matColumnDef="genDateTime">
+          <mat-header-cell *matHeaderCellDef class="header-align-right"> Request Time </mat-header-cell>
+          <mat-cell *matCellDef="let sharedLink" data-label="Request Time :"  class='has_label_on_mobile'> {{sharedLink.genDateTime }} </mat-cell>
+        </ng-container>
+
+         <!-- Expiry Time Column -->
+         <ng-container matColumnDef="expiDate">
+          <mat-header-cell *matHeaderCellDef class="header-align-right"> Expiry Time </mat-header-cell>
+          <mat-cell *matCellDef="let sharedLink" > {{sharedLink.expiDate}} </mat-cell>
+        </ng-container>
+
+
+        
+        <!-- Generated Link Column -->
+        <ng-container matColumnDef="link">
+          <mat-header-cell *matHeaderCellDef class="header-align-right"> Link <mat-icon style="zoom: 0.5;">touch_app</mat-icon></mat-header-cell>
+          <mat-cell *matCellDef="let sharedLink" > 
+            <i class="fa fa-link" aria-hidden="true"  matTooltip="Click to copy link"  (click)="openSnackBar(sharedLink.link)" *ngIf="sharedLink.linkStatus!='CANCELLED' && sharedLink.linkStatus!='EXPIRED'  "></i> 
+            <i class="fa fa-link" aria-hidden="true"  style="color: darkgray;cursor:not-allowed;" matTooltip="Link Expired"   *ngIf="sharedLink.linkStatus==='CANCELLED'"></i> 
+            <i class="fa fa-link" aria-hidden="true"  style="color: darkgray;cursor:not-allowed;" matTooltip="Link Expired"   *ngIf="sharedLink.linkStatus==='EXPIRED'"></i> 
+            <!-- <i class="fa fa-link" aria-hidden="true"  style="color: darkgray;cursor:not-allowed;" matTooltip="Link Completed"   *ngIf="sharedLink.linkStatus==='COMPLETED'"></i>  -->
+          </mat-cell>
+        </ng-container>
+      
+        <!-- Generate Passcode Column -->
+        <ng-container matColumnDef="code" style="text-align: center;">
+          <mat-header-cell *matHeaderCellDef class="header-align-right">  Passcode <mat-icon style="zoom: 0.5;">touch_app</mat-icon></mat-header-cell>
+          <mat-cell *matCellDef="let sharedLink ; let i = index" >
+               <!-- {{i}} -->
+               <div style="text-align: center;" >
+                    <button class="btn btn-outline-secondary btn-sm generateBtn" id="showBtnPass_{{i}}" [disabled]="sharedLink.linkStatus != 'EXTENDED' && sharedLink.linkStatus != 'ACTIVE' && sharedLink.linkStatus != 'COMPLETED'  " (click)="generateOTP(i,sharedLink.link)">Generate</button>
+               </div>
+               <div id="showPass_{{i}}" style="display: none;">
+                    {{sharedLink.code}} 
+               </div>
+               
+        </mat-cell>
+        </ng-container>
+
+        <!-- Total Days Column -->
+        <ng-container matColumnDef="totalDays">
+            <mat-header-cell *matHeaderCellDef  class="header-align-right">Total Duration </mat-header-cell>
+            <mat-cell *matCellDef="let sharedLink" data-label="Total Duration :"  class='has_label_on_mobile'> {{sharedLink.totalDays}} </mat-cell>
+          </ng-container>
+        
+          <!-- Pending Days Column -->
+          <ng-container matColumnDef="pendingDays">
+            <mat-header-cell *matHeaderCellDef  class="header-align-right">Pending Duration</mat-header-cell>
+            <mat-cell *matCellDef="let sharedLink" data-label="Pending Duration :"  class='has_label_on_mobile'> {{sharedLink.pendingDays}} </mat-cell>
+          </ng-container>
+
+          <!-- Extended Days Column -->
+          <ng-container matColumnDef="extendedDays">
+            <mat-header-cell *matHeaderCellDef  class="header-align-right">Extended Days <mat-icon style="zoom: 0.5;">edit</mat-icon></mat-header-cell>
+            <mat-cell *matCellDef="let sharedLink;let i = index" matTooltip="Click  to Extend the date " (click)="openExtendedModal(sharedLink,i)" style="cursor: pointer;" data-label="Extended Days :"  class='has_label_on_mobile'> {{sharedLink.extendedDays}} </mat-cell>
+          </ng-container>
+        
+          <!-- Link Status Column -->
+          <ng-container matColumnDef="status" >
+            <mat-header-cell *matHeaderCellDef  class="header-align-right" (click)="openLinkStatusFilterModal()" style="cursor: pointer;"> Link Status <mat-icon style="zoom: 0.5;">filter_alt</mat-icon></mat-header-cell>
+            <mat-cell *matCellDef="let sharedLink" data-label="Link Status :"  class='has_label_on_mobile'> {{sharedLink.linkStatus}} </mat-cell>
+          </ng-container>
+        
+          <!-- Cancel Request Column -->
+          <ng-container matColumnDef="cancelRequest">
+            <mat-header-cell *matHeaderCellDef  class="header-align-right">Cancel Request <mat-icon style="zoom: 0.5;">touch_app</mat-icon></mat-header-cell>
+            <mat-cell *matCellDef="let sharedLink;let i = index" > 
+              
+                <i class="fas fa-unlink" matTooltip="Click to cancel the link"  (click)="openCancelModal(i)" *ngIf="sharedLink.linkStatus!='CANCELLED' && sharedLink.linkStatus!='EXPIRED' && sharedLink.linkStatus!='COMPLETED' "></i>
+                <i class="fas fa-unlink" style="color: darkgray;cursor:not-allowed;" matTooltip="Link Expired "   *ngIf="sharedLink.linkStatus==='CANCELLED'"></i>
+                <i class="fas fa-unlink" style="color: darkgray;cursor:not-allowed;" matTooltip="Link Expired "   *ngIf="sharedLink.linkStatus==='EXPIRED'"></i>
+                <i class="fas fa-unlink" style="color: darkgray;cursor:not-allowed;" matTooltip="Link Completed"   *ngIf="sharedLink.linkStatus==='COMPLETED'"></i>
+
+            </mat-cell>
+          </ng-container>
+
+           <!-- Login Request Column -->
+           <ng-container matColumnDef="loginStatus">
+            <mat-header-cell *matHeaderCellDef  class="header-align-right" >Login Status </mat-header-cell>
+            <mat-cell *matCellDef="let sharedLink"  data-label="Login Status :"  class='has_label_on_mobile'> {{sharedLink.loginStatus}} </mat-cell>
+          </ng-container>
+      
+        <mat-header-row *matHeaderRowDef="displayedColumns;sticky:true" ></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+
+    </div>  
+
+      <div style="text-align: center;padding: 1em;" *ngIf="noDataFound">
+            <p style="font-weight: bold;font-size: medium;font-family: Georgia, 'Times New Roman', Times, serif;">No Data Found</p>
+            <!-- <img src="../../../assets/NoRecordFound.png"> -->
+      </div>
+      <br>
+              <div style="text-align: center;">
+                <div class='e-btn-group e-round-corner'>
+                  <button ejs-button cssClass='e-warning' [disabled]="pageNo===0" (click)="prevBtn()">Previous</button>
+                  <button ejs-button cssClass='e-success' [disabled]="disableNext" (click)="nextBtn()">Next</button>
+                </div>
+              </div>
+              
+
+</div>
+
+
+<ng-template #link let-data>
+ <div style="text-align: center;">
+    <span *ngIf="!isDownloadLink" style="color: hotpink;  font-family: 'Josefin Sans', sans-serif;" ><i class="fa fa-link" aria-hidden="true"></i>   Upload Request Link Copied to Clipboard !!!!</span> 
+    <span *ngIf="isDownloadLink" style="color: hotpink;  font-family: 'Josefin Sans', sans-serif;" ><i class="fa fa-link" aria-hidden="true"></i>   Download Request Link Copied to Clipboard !!!!</span> 
+   <br>    
+    <!-- <span>https://fileuploadingtesting.bsolsystems.com/full/login/{{data.link}}</span>  -->
+         <span>{{third_party_url}}{{data.link}} </span>
+ </div>   
+</ng-template>
+
+<ng-template #pwd let-data>
+  <div style="text-align: center;">
+     <!-- <span *ngIf="!isDownloadLink" style="color: hotpink;  font-family: 'Josefin Sans', sans-serif;" ><i class="fa fa-link" aria-hidden="true"></i>   Upload Request Link Copied to Clipboard !!!!</span> 
+     <span *ngIf="isDownloadLink" style="color: hotpink;  font-family: 'Josefin Sans', sans-serif;" ><i class="fa fa-link" aria-hidden="true"></i>   Download Request Link Copied to Clipboard !!!!</span>  -->
+     <span  *ngIf="!iosDevice" style="color: hotpink;  font-family: 'Josefin Sans', sans-serif;" >  Generated Passcode Copied to Clipboard !!!!</span>   
+      <span *ngIf="iosDevice" style="color: hotpink;  font-family: 'Josefin Sans', sans-serif;" >  Generated Passcode  !!!!</span>   
+     <br>
+     <span> <i class="fa fa-key" aria-hidden="true"></i>  Passcode : {{data.pwd}} </span>
+
+    <!-- <button mat-raised-button color="accent" (click)="snackBarRef.dismiss()">close</button> -->
+    <button (click)="dismiss()" mat-button mat-icon-button aria-label="Clear" >
+      <i class="fa fa-close" aria-hidden="true"></i>
+    </button> 
+     
+     
+     <!-- <span>https://fileuploadingtesting.bsolsystems.com/full/login/{{data.link}}</span>  -->
+          <!-- <span>http://192.168.1.75:4200/full/login/{{data.link}} </span> -->
+  </div>   
+ </ng-template>
+
+<ng-template #cancelModal let-data>
+    <div>
+        <!-- <h2>Confirmation</h2> -->
+        <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;">
+         <span><i class="fas fa-info-circle fa-lg"></i></span> Do you want to cancel the Link ?
+         
+        </mat-dialog-content>    
+            <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+              <button   mat-raised-button color="warn"  style="width: 40%;" (click)="close()">No</button>
+              <button (click)="cancelLink(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Yes</button>
+        </mat-dialog-actions>
+    </div>
+</ng-template>
+
+<ng-template #cancelModal let-data>
+  <div>
+      <!-- <h2>Confirmation</h2> -->
+      <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;">
+       <span><i class="fas fa-info-circle fa-lg"></i></span> Do you want to cancel the Link ?
+       
+      </mat-dialog-content>    
+          <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+            <button   mat-raised-button color="warn"  style="width: 40%;" (click)="close()">No</button>
+            <button (click)="cancelLink(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Yes</button>
+      </mat-dialog-actions>
+  </div>
+</ng-template>
+
+<ng-template #extendedModal let-data>
+  
+  <mat-dialog-content class="mat-typography">
+    
+    <mat-form-field class="extendDays" >
+      <button 
+        mat-button 
+        mat-icon-button 
+        matPrefix 
+        aria-label="Remove"                                   
+        (click)="incrementValue(-_step)" 
+        [disabled]="shouldDisableDecrement(_value)"
+        type="button"
+        >
+        <mat-icon class="icon-display" style="color: red;font-weight: bold;">remove</mat-icon>
+      </button>
+      <mat-label style="font-weight: 500;font-size: 20px;"> Extend Duration(In Days)</mat-label>
+      <input  class="increment-input" style="-moz-appearance: textfield;cursor: none;" matInput type="number" [(ngModel)]="_value"  [value]="_value || 0" [step]="_step" [min]="_min" [max]="_max" readonly/>
+      <button 
+        mat-button 
+        mat-icon-button 
+        matSuffix
+        aria-label="Add"                                   
+        (click)="incrementValue(_step)" 
+        [disabled]="shouldDisableIncrement(_value)"
+        type="button">
+        <mat-icon class="icon-display" style="color: green;font-weight: bold;">add</mat-icon>
+      </button>
+    </mat-form-field>
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    
+    <button (click)="extend(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Extend</button>
+    <button mat-raised-button color="warn" style="width: 10%;" (click)="close()">Close</button>
+    
+  </mat-dialog-actions>
+</ng-template>
+
+<ng-template #filterLinkStatus>
+  <h2 mat-dialog-title class="filterTitle">Filter Link Status <span><button mat-button mat-dialog-close (click)="close()">
+    <mat-icon aria-hidden="false" aria-label="Example home icon">cancel</mat-icon>
+  </button></span></h2>
+  <mat-dialog-content >
+    <!-- [checked]='status.id===filterOpt' -->
+    <form [formGroup]="filterForm" (ngSubmit)="submit()">
+      <section class="example-section" *ngFor="let status of linkStatusFilter">
+        <mat-checkbox class="example-margin" [checked] = "status.isChecked ? 'checked' : null" 
+            (change)="onChangeEventFunc(status.id, $event,status.id)">
+        {{ status.linkName }}
+        </mat-checkbox>
+      </section>
+      <div class="filterSubmitBtn">
+        <button mat-raised-button cdkFocusInitial color="accent">Filter</button>
+      </div>
+     </form> 
+
+  </mat-dialog-content>
+
+    
+<!--     
+    <button (click)="extend(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Extend</button>
+    <button mat-raised-button color="warn" style="width: 10%;" (click)="close()">Close</button>
+     -->
+</ng-template>
+
+</block-ui>

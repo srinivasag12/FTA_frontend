@@ -1,0 +1,736 @@
+<block-ui>
+<div class="control-section e-tab-section">
+  <div class="e-sample-resize-container">
+    <!-- Render the Tab Component -->
+    <ejs-tab #tab id="tab_default" heightAdjustMode='Auto' enablePersistance='true' (selected)="tabSelected($event)" (created)="oncreated(tab)">
+      <e-tabitems>
+        <e-tabitem [header]='headerText[0]'>
+
+          <ng-template #content>
+            <div style="padding: 10px;">
+              <div>
+                <!-- <span class="thirdPartyShareLabel"> SHARE TO THIRD PARTY</span>
+                <mat-divider style="margin-bottom: 10px;"></mat-divider> -->
+
+                <ngx-flip [flip]="flip">
+                  <div class="card" front style="margin: 25px; height: auto;">
+
+                  
+
+<!-- ---------------------------------------------------------------------------------------------------------- -->
+          <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="center center" >
+            <img src="../assets/BlueAvatar.svg" alt="Avatar" class="avatar">
+          </div>
+
+          <form class="example-form" (ngSubmit)="rotateFront()" #emailForm="ngForm" style="height: auto;overflow: hidden;" autocomplete="off">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="center" >
+              <mat-form-field class="example-full-width" >
+                <mat-label> Enter Third Party Email Address</mat-label>
+                <!-- <input matInput [formControl]="emailFormControl"
+                  placeholder="Ex. thirdpartyuser@example.com"> -->
+                <!-- /////////////////// -->
+                <mat-chip-list #emailListForUpload >
+                  <!--Iterate by array of data and display a chip for each value.-->
+                  <mat-chip
+                    *ngFor="let email of uploadEmails"
+                    removable
+                    (removed)="onRemoveEmail(email)"
+                  >
+                    {{email}}
+                  <!--Icon that is used as a button when 'removable' set to true.-->
+                    <mat-icon matChipRemove >cancel</mat-icon>
+                  </mat-chip>
+                  <input placeholder="Enter Emails"
+                         [matChipInputAddOnBlur]="true"
+                         [matChipInputFor]="emailListForUpload"                                           
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         (matChipInputTokenEnd)="addEmail($event)"
+                         
+                         #chipsInput
+                         >
+                </mat-chip-list>
+                <!-- ////////////////////// -->
+              <mat-error
+                  *ngIf="emailFormControl.controls['emailsForUpload'].hasError('email') &&  !emailFormControl.controls['emailsForUpload'].hasError('validateRequired')">
+                  Please enter a valid email address
+                </mat-error>
+              <mat-error *ngIf="emailForm.submitted">
+                Email is <strong>required</strong>
+              </mat-error>
+              <!-- {{emailForm.submitted}} -->
+
+              <!-- <div class="jumbotron p-4 alert alert-success ">
+                {{emailForm.submitted}} 
+              </div> -->
+              </mat-form-field>
+            </div>  
+          </form>  
+
+          <form [formGroup]="thirdPartyFileUploadForm" (ngSubmit)="rotateFront()" autocomplete="off">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="center" layout-margin>
+              <mat-form-field class="example-full-width1">
+                <mat-label> Vessel Name</mat-label>
+                <!-- (keypress)="omit_special_char($event)" -->
+                <input matInput formControlName="vesselName"  placeholder="Vessel Name"  [matTooltip]="thirdPartyFileUploadForm.get('vesselName').value">
+                <!-- <mat-error
+                  *ngIf="(thirdPartyFileUploadFormControl.vesselName.touched) && thirdPartyFileUploadFormControl.vesselName.errors?.required">
+                  Vessel Name is <strong>required</strong>
+                </mat-error> -->
+                <mat-error
+                  *ngIf="(thirdPartyFileUploadFormControl.vesselName.touched) && thirdPartyFileUploadFormControl.vesselName.errors?.dotAtFirst">
+                  Vessel Name contains <strong>Special Character</strong> at First
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width1">
+                <mat-label> Vessel IMO No. </mat-label>
+                <input matInput formControlName="vesselImoNo" type="number" (keypress)="preventNonNumericalInput($event)" (keydown.arrowdown)="(false)" (keydown.arrowup)="(false)"
+                 maxlength="7" minlength="7" placeholder="Vessel IMO No."
+                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+
+                <!-- <input matInput formControlName="vesselImoNo" type="number" (keypress)="keyPress($event)" placeholder="Vessel IMO No." > -->
+                <!-- <mat-error
+                  *ngIf="(thirdPartyFileUploadFormControl.vesselImoNo.touched) && thirdPartyFileUploadFormControl.vesselImoNo.errors?.required"  >
+                  Vessel IMO No is <strong>required</strong>
+                </mat-error> -->
+                <mat-error *ngIf="(thirdPartyFileUploadFormControl.vesselImoNo.touched) && thirdPartyFileUploadFormControl.vesselImoNo.errors?.min">
+                  Minimum length is 7
+                </mat-error>
+                <mat-error *ngIf="(thirdPartyFileUploadFormControl.vesselImoNo.touched) && thirdPartyFileUploadFormControl.vesselImoNo.errors?.max">
+                  Maximum length is 7
+                </mat-error>
+                <mat-error *ngIf="(thirdPartyFileUploadFormControl.vesselImoNo.touched) && thirdPartyFileUploadFormControl.vesselImoNo.errors?.dot">
+                  IMO No contains <strong>dot</strong>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="example-full-width1">
+                <mat-label>  Official No.</mat-label>
+                <input matInput formControlName="vesselOfficialNo" type="number" maxlength="6" minlength="4" 
+                placeholder=" Official No" (keypress)="preventNonNumericalInput($event)" (keydown.arrowdown)="(false)" (keydown.arrowup)="(false)"
+                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" >
+                <!-- <mat-error
+                  *ngIf="(thirdPartyFileUploadFormControl.vesselOfficialNo.touched) && thirdPartyFileUploadFormControl.vesselOfficialNo.errors?.required ">
+                  Vessel Official No is <strong>required</strong>
+                  {{thirdPartyFileUploadFormControl.vesselOfficialNo.errors?.DotRequired}}
+                </mat-error> -->
+                <mat-error *ngIf="(thirdPartyFileUploadFormControl.vesselOfficialNo.touched) && thirdPartyFileUploadFormControl.vesselOfficialNo.errors?.min">
+                  Minimum length is 4
+                </mat-error>
+                <mat-error *ngIf="(thirdPartyFileUploadFormControl.vesselOfficialNo.touched) && thirdPartyFileUploadFormControl.vesselOfficialNo.errors?.max">
+                  Maximum length is 6
+                </mat-error>
+                <mat-error *ngIf="(thirdPartyFileUploadFormControl.vesselImoNo.touched) && thirdPartyFileUploadFormControl.vesselOfficialNo.errors?.dot">
+                  Official No contains <strong>dot</strong>
+                </mat-error>
+                
+              </mat-form-field>
+
+
+            </div>  
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="3.5%" fxLayoutAlign="center ">
+
+              <mat-form-field class="example-full-width1">
+                <!-- <mat-label> Inspection Type</mat-label> -->
+                <!-- <input matInput formControlName="description" placeholder="Description" [matTooltip]="thirdPartyFileUploadForm.get('description').value">
+                <mat-error
+                  *ngIf="(thirdPartyFileUploadFormControl.description.touched) && thirdPartyFileUploadFormControl.description.errors?.required">
+                  Description is <strong>required</strong>
+                </mat-error> -->
+
+                <mat-select formControlName="description"  placeholder="Inspection Type">
+                  <mat-option>Choose Inspection Type</mat-option>
+                  <mat-option [value]="option.id" *ngFor="let option of description" style="font-weight: 500;">{{ option.desc }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="extendDays" >
+                <button mat-button mat-icon-button matPrefix aria-label="Remove"
+                  (click)="incrementValue(-_step)" [disabled]="shouldDisableDecrement(_value)"
+                  type="button">
+                  <mat-icon class="icon-display" style="color: red;font-weight: bold;">remove
+                  </mat-icon>
+                </button>
+                
+                <mat-label style="font-weight: 500;font-size: 13px;"> Link Duration(Days)</mat-label>
+                <input class="increment-input" matInput type="number"
+                  formControlName="linkDurationDays" [(ngModel)]="_value" [value]="_value || 15"
+                  [step]="_step" [min]="_min" [max]="_max" readonly />
+
+                <button mat-button mat-icon-button matSuffix aria-label="Add"
+                  (click)="incrementValue(_step)" [disabled]="shouldDisableIncrement(_value)"
+                  type="button">
+                  <mat-icon class="icon-display" style="color: green;font-weight: bold;">add
+                  </mat-icon>
+                </button>
+              </mat-form-field>
+
+            </div>   
+          </form>
+
+          <div flexLayout="column" *ngIf="enableProgressBar">
+            <mat-progress-bar mode="buffer"></mat-progress-bar>
+          </div>
+          
+          <div>
+            <img *ngIf="!iosDevice" src="../assets/send.svg" alt="Mail" class="sendBtn"
+              [matTooltip]="emailFormControl.valid ? 'Click to send verficiation email' : 'Enter Valid email'"
+              matTooltipPosition="right" type="submit" (click)="rotateFront()">
+          
+            <button *ngIf="iosDevice" class="btn btn-info btn-sm createFolderBtn" type="submit" (click)="rotateFront()">Send
+              Upload Link</button>
+                                  
+          </div>
+<!-- ---------------------------------------------------------------------------------------------------------- -->
+
+                  </div>
+
+                  <div class="card" back style="padding: 20px;">
+
+                    <div flexLayout="column">
+
+                      <div>
+                        <img src="../../../assets/openmail.svg" class="correct">
+                      </div>
+                      <!-- <div class="verifyAccText">
+                        Verify your account
+                      </div> -->
+                      <div class="verifyLinkText" style="font-weight: bold;">
+                        We just sent an upload link to 
+                        <ul style="padding: 0px;list-style: none;">
+                          <li *ngFor="let email of sharedEmailList">
+                            <span id="file-label">
+                              {{email}} 
+                            </span>
+                          </li>
+                          
+                        </ul>    
+                      </div>
+                      <div>
+                        <img src="../assets/again.svg" alt="Mail" class="sendBtn" (click)="rotateBack()"
+                          matTooltip="Click to send another email" matTooltipPosition="right">
+                      </div>
+
+                    </div>
+
+                  </div>
+                </ngx-flip>
+
+
+              </div>
+              
+            </div>
+          </ng-template>
+        </e-tabitem>
+        <!-- <e-tabitem [header]='headerText[1]'>
+          <ng-template #content>
+            <div style="padding: 10px;">
+              SHARED TO ME
+            </div>
+          </ng-template>
+        </e-tabitem>
+        <e-tabitem [header]='headerText[2]'>
+          <ng-template #content>
+            <div style="padding: 10px;">
+              SHARED BY ME
+            </div>
+
+          </ng-template>
+        </e-tabitem> -->
+        <e-tabitem [header]='headerText[1]'>
+          <ng-template #content>
+            <div style="padding: 10px;">
+              <!-- <span class="thirdPartyShareLabel"> SHARE TO THIRD PARTY</span>
+              <mat-divider style="margin-bottom: 10px;"></mat-divider> -->
+              <!-- LINK GENERATION SECTION STARTS -->
+
+            <mat-accordion>
+              <mat-expansion-panel [expanded]="isExpanded" (opened)="isExpanded = true">
+              
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    CREATE FOLDER
+                  </mat-panel-title>
+
+                  <!-- <mat-panel-description>
+                    GENERATE DOWNLOAD LINK
+                  </mat-panel-description> -->
+
+                </mat-expansion-panel-header>
+
+                <div class="newFolderCard">
+                  <div flexLayout="column">
+                    <div fxFlex flexLayout="row" fxLayoutGap="0px">
+                      <div>
+                        <img src="../assets/addFolder.svg" alt="newFolder" class="newFolder">
+                      </div>
+                     
+                      <div>
+                        <form [formGroup]="linkIdGenForm" (ngSubmit)="generateLinkId()" autocomplete="off">
+                          <div fxLayout="row" fxLayoutAlign="space-around center"
+                            style="font-family:Josefin Sans;font-weight: 600;margin-bottom: 5px;padding: 5px;">
+                            <div>
+                              <mat-form-field class="example-full-width1">
+                                <mat-label> Vessel Name</mat-label>
+                                <!-- (keypress)="omit_special_char($event)" -->
+                                <input matInput formControlName="vesselName" placeholder="Vessel Name" >
+                                <!-- <mat-error
+                                  *ngIf="(linkIdGenFormControl.vesselName.touched) && linkIdGenFormControl.vesselName.errors?.required">
+                                  Vessel Name is <strong>required</strong>
+                                </mat-error> -->
+                                <mat-error
+                                      *ngIf="(linkIdGenFormControl.vesselName.touched) && linkIdGenFormControl.vesselName.errors?.dotAtFirst">
+                                      Vessel Name contains <strong>Special Character</strong> at First
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                        
+                            <div>
+                              <mat-form-field class="example-full-width1">
+                                <!-- <mat-label> Inspection Type</mat-label> -->
+                                <!-- <input matInput formControlName="description" placeholder="Description"> -->
+                                <mat-select formControlName="description" disableOptionCentering placeholder="Inspection Type">
+                                  <mat-option>Choose Inspection Type</mat-option>
+                                  <mat-option [value]="option.id" *ngFor="let option of description">{{ option.desc }}</mat-option>
+                                </mat-select>
+                                <!-- <mat-error
+                                  *ngIf="(linkIdGenFormControl.description.touched) && linkIdGenFormControl.description.errors?.required">
+                                  Description is <strong>required</strong>
+                                </mat-error> -->
+                              </mat-form-field>
+                            </div>
+                        
+                            <div>
+                              <mat-form-field class="example-full-width1">
+                                <mat-label> Vessel IMO No. </mat-label>
+                                <input matInput formControlName="vesselImoNo" placeholder="Vessel IMO No."  
+                                [matTooltip]="linkIdGenForm.get('vesselImoNo').value" 
+                                type="number" maxlength="7" minlength="7" placeholder="Vessel IMO No." 
+                                (keypress)="preventNonNumericalInput($event)"
+                                (keydown.arrowdown)="(false)" (keydown.arrowup)="(false)"
+                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                                <!-- <mat-error
+                                  *ngIf="(linkIdGenFormControl.vesselImoNo.touched) && linkIdGenFormControl.vesselImoNo.errors?.required">
+                                  *Vessel IMO No is <strong>required</strong>
+                                </mat-error> -->
+                                <mat-error *ngIf="(linkIdGenFormControl.vesselImoNo.touched) && linkIdGenFormControl.vesselImoNo.errors?.min">
+                                  Minimum length is 7
+                                </mat-error>
+                                <mat-error *ngIf="(linkIdGenFormControl.vesselImoNo.touched) && linkIdGenFormControl.vesselImoNo.errors?.max">
+                                  Maximum length is 7
+                                </mat-error>
+                                <mat-error *ngIf="(linkIdGenFormControl.vesselImoNo.touched) && linkIdGenFormControl.vesselImoNo.errors?.dot">
+                                  IMO No contains <strong>dot</strong>
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                        
+                            <div>
+                              <mat-form-field class="example-full-width1">
+                                <mat-label>  Official No.</mat-label>
+                                <input matInput formControlName="vesselOfficialNo" placeholder="Official No." 
+                                [matTooltip]="linkIdGenForm.get('vesselOfficialNo').value" 
+                                type="number" maxlength="6" minlength="4"  
+                                (keypress)="preventNonNumericalInput($event)"
+                                (keydown.arrowdown)="(false)" (keydown.arrowup)="(false)"
+                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                                <!-- <mat-error
+                                  *ngIf="(linkIdGenFormControl.vesselOfficialNo.touched) && linkIdGenFormControl.vesselOfficialNo.errors?.required">
+                                  *Vessel Official No is <strong>required</strong>
+                                </mat-error> -->
+                                <mat-error *ngIf="(linkIdGenFormControl.vesselOfficialNo.touched) && linkIdGenFormControl.vesselOfficialNo.errors?.min">
+                                  Minimum required length is 4.
+                                </mat-error>
+                                <mat-error *ngIf="(linkIdGenFormControl.vesselOfficialNo.touched) && linkIdGenFormControl.vesselOfficialNo.errors?.max">
+                                  Maximum required length is 6.
+                                </mat-error>
+                                <mat-error *ngIf="(linkIdGenFormControl.vesselOfficialNo.touched) && linkIdGenFormControl.vesselOfficialNo.errors?.dot">
+                                  Official No contains <strong>dot</strong>.
+                                </mat-error>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+    
+                    </div>  
+                  </div>  
+                  <div>
+                    <button 
+                    class="btn btn-info btn-sm createFolderBtn"
+                    [matTooltip]="linkIdGenForm.valid ? 'Click to create new folder' : 'Enter Vessel Name and Description'"
+                    matTooltipPosition="right"
+                    (click)="linkIdGenForm.valid?generateLinkId():null"
+                    [disabled]="!linkIdGenForm.valid"                  
+                    >Create Folder</button>  
+                  </div>
+                </div>
+
+              </mat-expansion-panel>  
+            </mat-accordion>
+            
+            
+              
+
+              <!-- LINK GENERATION SECTION ENDS -->
+
+              <!-- FILE UPLOAD LIST SECTION STARTS -->
+              <div style="padding-top: 10px;">
+                <div style="text-align: right;" *ngIf="isExpanded">
+                  <mat-form-field style="width:300px !important;font-weight: 500;font-size:medium;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+                    <mat-label>Search</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Search" #input class="search" >
+                  </mat-form-field>
+                </div>  
+                <div class="table-container">
+                <table mat-table [dataSource]="sharedToThirdDataSource" multiTemplateDataRows class="mat-elevation-z8">
+                  
+                  <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <mat-checkbox 
+                        (change)="$event ? masterToggle() : null" 
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="selection.hasValue() ">
+                      </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row;">
+                      <mat-checkbox 
+                      (click)="$event.stopPropagation()" 
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+
+
+                  <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef> Type </th>
+                    <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+                      matTooltipPosition="below">
+                      <mat-icon aria-hidden="false" aria-label="Example home icon"
+                        style="color: rgb(207, 219, 28);cursor: pointer;"> folder
+                      </mat-icon>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="imoNo">
+                    <th mat-header-cell *matHeaderCellDef> Vessel IMO No. </th>
+                    <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+                      style="font-size:medium;">
+                      {{element.imo }} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="vesselName">
+                    <th mat-header-cell *matHeaderCellDef> Vessel Name </th>
+                    <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+                      style="font-size:medium;">
+                      {{element.vesselName }} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="officialNo">
+                    <th mat-header-cell *matHeaderCellDef>  Official No. </th>
+                    <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+                      style="font-size:medium;">
+                      {{element.vslOfficialNo }} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="desc">
+                    <th mat-header-cell *matHeaderCellDef> Inspection Type </th>
+                    <td mat-cell *matCellDef="let element" matTooltip="Click to View Uploaded Files"
+                      style="font-size:medium;">
+                      {{element.desc }} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="upload">
+                    <th mat-header-cell *matHeaderCellDef> Upload </th>
+                    <td mat-cell *matCellDef="let element" 
+                      style="font-size:medium;" >
+                      <img src="../../../assets/files-and-folders.svg" class="uploadButton" (click)="$event.stopPropagation();upload(element)" alt="Mail">  
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="share">
+                    <th mat-header-cell *matHeaderCellDef> Share </th>
+                    <td mat-cell *matCellDef="let element" 
+                      style="font-size:medium;" (click)="getSelectedItems();$event.stopPropagation()">
+                      <img src="../../../assets/share.svg" class="uploadButton" alt="Mail" style="zoom:1.0">  
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="archiveFolder">
+                    <th mat-header-cell *matHeaderCellDef> Delete Folder </th>
+                    <td mat-cell *matCellDef="let element" 
+                      style="font-size:medium;">
+                      <img src="../../../assets/folderDelete.svg" height="30px" width="30px" (click)="openDeleteFolderModal(element);$event.stopPropagation()" matTooltip="Click to Delete Folder" style="cursor: pointer;"> 
+                      <!-- <mat-icon (click)="openDeleteFolderModal(element);$event.stopPropagation()" matTooltip="Click to Delete Folder" style="cursor: pointer;">archive</mat-icon> </td> -->
+                  </ng-container>
+
+                  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                  <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplaySharedToThird.length" >
+                
+                      <div class="example-element-detail" *ngIf="element.files?.length"
+                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" >
+                        <div class="inner-table mat-elevation-z8" *ngIf="expandedElement" >
+                         
+                          <table #innerTables mat-table [dataSource]="element.files" >
+
+                             <!-- Checkbox Column -->
+                              <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                  <!-- <mat-checkbox 
+                                    (change)="$event ? masterToggle() : null" 
+                                    [checked]="selection1.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection1.hasValue() && !isAllSelected()">
+                                  </mat-checkbox> -->
+                                  Select
+                                </th>
+                                <td mat-cell *matCellDef="let row;">
+                                  <mat-checkbox 
+                                  (click)="$event.stopPropagation()" 
+                                  (change)="$event ? selection1.toggle(row) : null"
+                                  [checked]="selection1.isSelected(row)">
+                                  </mat-checkbox>
+                                </td>
+                              </ng-container>
+
+                            <!-- Icon Column -->
+                            <ng-container matColumnDef="type">
+                              <th mat-header-cell *matHeaderCellDef> File Type </th>
+                              <td mat-cell *matCellDef="let file">
+                                <mat-icon aria-hidden="false" aria-label="Example home icon" style="color: grey;">
+                                  {{file.type}}
+                                </mat-icon>
+                              </td>
+                            </ng-container>
+
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="name">
+                              <th mat-header-cell *matHeaderCellDef> File Name </th>
+                              <td mat-cell *matCellDef="let file" (click)="downloadfile(file.id)"
+                                style="cursor: pointer;" matTooltip="Download File"> {{file.name}} <sup><img
+                                    src="../../../assets/verify1.svg" height="15px" width="15px"></sup></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="preview">
+                              <th mat-header-cell *matHeaderCellDef> Preview </th>
+                              <td mat-cell *matCellDef="let file">
+                                <mat-icon aria-hidden="false" aria-label="Example home icon"
+                                  style="color: grey;cursor: pointer;" (click)="openPreviewModal(file.id,file.type)"> remove_red_eye
+                                </mat-icon>
+                              </td>
+                            </ng-container>
+
+                            <!-- uploadedDate Column -->
+                            <ng-container matColumnDef="sharedDate">
+                              <th mat-header-cell *matHeaderCellDef> Uploaded On </th>
+                              <td mat-cell *matCellDef="let file">
+                                {{file.sharedDate | date:'dd-MMM-yyy  HH:mm'}}
+                              </td>
+                            </ng-container>
+
+                            <!-- fileSize Column -->
+                            <ng-container matColumnDef="fileSize">
+                              <th mat-header-cell *matHeaderCellDef> Size </th>
+                              <td mat-cell *matCellDef="let file"> {{file.fileSize }} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="archiveFile">
+                              <th mat-header-cell *matHeaderCellDef> Remove</th>
+                              <td mat-cell *matCellDef="let file" (click)="openDeleteFileModal(file);">
+                                <img src="../../../assets/delete.svg" height="30px" width="30px">
+                              </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="innerColumnsToDisplaySharedToThird"></tr>
+                            <tr mat-row *matRowDef="let row; columns: innerColumnsToDisplaySharedToThird;"></tr>
+                          </table>
+
+                        </div>
+                      </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="columnsToDisplaySharedToThird;sticky:true"></tr>
+                  <tr mat-row *matRowDef="let element; columns: columnsToDisplaySharedToThird;let index = dataIndex"
+                    [class.example-element-row]="element.files?.length"
+                    [class.example-expanded-row]="expandedElement === element" (click)="toggleRow1(element,index,element == expandedElement)">
+                  </tr>
+                  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row" (click)="selection.toggle(row)"></tr>
+                </table>
+
+                <div *ngIf="noDataFound" style="text-align: center;">
+                  <img src="../../../assets/nodatafound.png" >
+                </div>
+                </div>
+              </div>
+
+              <!-- FILE UPLOAD LIST SECTION ENDS -->
+
+            </div>
+
+          </ng-template>
+        </e-tabitem>
+      </e-tabitems>
+    </ejs-tab>
+  </div>
+</div>
+
+<ng-template #preview style="margin: 0 auto;">
+  <block-ui>
+  <h2 mat-dialog-title>File Preview</h2>
+  <!-- <div style="color: black;" class="noselect">
+    {{tryDoctype}} {{blob_url}}
+  </div> -->
+  
+  <mat-dialog-content >
+    <!-- <iframe [src]="tryDoctype" width="inherit" height="500px" alt="res" seamless></iframe> -->
+    <div style="position:relative; width:100%; height:450px; padding-bottom:56.25%;">
+      <iframe style="position:absolute; left:0; top:0; width:100%; height:100%" class="iframe-placeholder"
+      [src]="tryDoctype" allowfullscreen seamless>
+      </iframe>
+      <!-- <ngx-extended-pdf-viewer [src]="tryDoctype" useBrowserLocale="true" ></ngx-extended-pdf-viewer> -->
+
+      <!-- <img style="position:absolute; left:0; top:0; width:100%; height:100%"
+        [src]="tryDoctype" allowfullscreen> -->
+    </div>  
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="warn" style="width: 10%;" (click)="close()">Close</button>
+  </mat-dialog-actions>
+  </block-ui>
+</ng-template>
+
+
+<ng-template #shareToModal style="margin: 0 auto;">
+  <block-ui>
+  <h2 mat-dialog-title style="position: fixed;z-index: 1;">SHARE TO THIRD PARTY</h2>
+  <mat-dialog-content style="padding-top: 10%;">
+   
+    <div class="container" style="padding-top: 10%;" style="overflow: inherit;height: 380px;">
+      <form [formGroup]="sendToThirdPartyModalForm" (ngSubmit)="onShareToSubmit()" autocomplete="off">
+       
+        <div class="row justify-content-center form-group">
+          <div class="col-12">
+            <mat-form-field style="width: 100%">
+              <mat-chip-list #emailListForDownload>
+                <mat-chip
+                  *ngFor="let email of downloadEmails"
+                  removable
+                  (removed)="onRemoveEmail(email)"
+                >
+                  {{email}}
+                  <mat-icon matChipRemove >cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Enter Emails"
+                
+                       [matChipInputAddOnBlur]="true"
+                       [matChipInputFor]="emailListForDownload"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       (matChipInputTokenEnd)="addEmail($event)"
+                       #chipsInputDownload
+                       >
+                <br>       
+              
+                <mat-error
+                *ngIf="sendToThirdPartyModalForm.controls['emailsForDownload'].hasError('email') && !sendToThirdPartyModalForm.controls['emailsForDownload'].hasError('validateRequired')">
+                Please enter a valid email address
+              </mat-error>
+            <mat-error *ngIf=" (sendToThirdPartyModalForm.controls['emailsForDownload'].touched) && sendToThirdPartyModalForm.controls['emailsForDownload'].hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+               
+              </mat-chip-list>
+            </mat-form-field>
+
+            <mat-form-field class="extendDaysModal">
+              <button 
+                mat-button 
+                mat-icon-button 
+                matPrefix 
+                aria-label="Remove"                                   
+                (click)="incrementValueForThird(-_stepForThird)" 
+                [disabled]="shouldDisableDecrementForThird(_valueForThird)"
+                type="button"
+                >
+                <mat-icon class="icon-display" style="color: red;font-weight: bold;">remove</mat-icon>
+              </button>
+              <mat-label style="font-weight: 500;font-size: 15px;"> Download Duration(Days)</mat-label>
+              <input  class="increment-input" matInput type="number" formControlName="days" [(ngModel)]="_valueForThird"  [value]="_valueForThird || 0" [step]="_stepForThird" [min]="_minForThird" [max]="_maxForThird" readonly/>
+              <button 
+                mat-button 
+                mat-icon-button 
+                matSuffix
+                aria-label="Add"                                   
+                (click)="incrementValueForThird(_stepForThird)" 
+                [disabled]="shouldDisableIncrementForThird(_valueForThird)"
+                type="button">
+                <mat-icon class="icon-display" style="color: green;font-weight: bold;">add</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-form-field  style="width: 100%">
+              <mat-label>Leave a comment</mat-label>
+              <textarea matInput placeholder="Optional" formControlName="comments"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row justify-content-center">          
+
+          <div class="col-4 text-center" style="margin: 5px;">
+            <button mat-raised-button color="warn" style="width: 10%;margin-right:3%" (click)="downloadModalClose()">Close</button>
+            <button mat-raised-button type="submit" color="primary" [class.spinner]="sendingProgressBar" [disabled]="sendingProgressBar" >Submit </button>
+          </div>
+        </div>
+        
+      </form>
+    </div>
+
+  </mat-dialog-content>
+ 
+</block-ui>
+</ng-template>
+
+<ng-template #deleteFolderModal let-data>
+  <div>
+      <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;overflow: hidden;">
+       <span><i class="fas fa-info-circle fa-lg"></i></span> Do you want to Delete the Folder ?
+       
+      </mat-dialog-content>    
+          <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+            <button   mat-raised-button color="warn"  style="width: 40%;" (click)="close()">No</button>
+            <button (click)="removeFolder(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Yes</button>
+      </mat-dialog-actions>
+  </div>
+</ng-template>
+
+<ng-template #deleteFileModal let-data>
+  <div>
+      <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;overflow: hidden;">
+       <span><i class="fas fa-info-circle fa-lg"></i></span > <strong>  Do you want to Delete the File ?</strong>
+       
+      </mat-dialog-content>    
+          <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+            <button   mat-raised-button color="warn"  style="width: 40%;" (click)="close()">No</button>
+            <button (click)="removeFile(data)" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Yes</button>
+      </mat-dialog-actions>
+  </div>
+</ng-template>
+
+<ng-template #mergeFileModal let-data>
+  <div>
+      <mat-dialog-content class="mat-typography" style="margin-bottom: 10px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;font-size: medium;overflow: hidden;">
+       <span><i class="fas fa-info-circle fa-lg"></i></span > <strong> Previously Shared  Download link is Still Active for the selected Files , Do you want to merge the files ?</strong>
+       
+      </mat-dialog-content>    
+          <mat-dialog-actions align="center" style="margin-bottom: 3px;">
+            <button   mat-raised-button color="warn"  style="width: 40%;" (click)="downloadModalClose()">No</button>
+            <button (click)="fileMerge()" cdkFocusInitial mat-raised-button color="primary" style="width: 40%;background: green;">Yes</button>
+      </mat-dialog-actions>
+  </div>
+</ng-template>
+
+</block-ui>
