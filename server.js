@@ -24,6 +24,6 @@ app.all('*', function(req,res){
 https.createServer({
     key: fs.readFileSync('server.key'),
     cert: fs.readFileSync('server.cert')
-  }, app).listen(443, () => {
-    console.log('Listening... on 443')
-  })
+  }, app.listen(443, '0.0.0.0', function() {
+    console.log('Listening to port:  ' + 443);
+});
