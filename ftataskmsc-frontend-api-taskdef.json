@@ -1,0 +1,80 @@
+{
+    "family": "msc-frontend-api-taskdef",
+    "containerDefinitions": [
+        {
+            "name": "frontend-1",
+            "image": "014025535279.dkr.ecr.us-east-1.amazonaws.com/ftarepo",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "frontend-1-80-tcp",
+                    "containerPort": 80,
+                    "hostPort": 80,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                },
+                {
+                    "name": "frontend-1-4888-tcp",
+                    "containerPort": 4888,
+                    "hostPort": 4888,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/msc-frontend-api-taskdef",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        },
+        {
+            "name": "api-1",
+            "image": "014025535279.dkr.ecr.us-east-1.amazonaws.com/apirepo",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "api-1-8181-tcp",
+                    "containerPort": 8181,
+                    "hostPort": 8181,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-create-group": "true",
+                    "awslogs-group": "/ecs/msc-frontend-api-taskdef",
+                    "awslogs-region": "us-east-1",
+                    "awslogs-stream-prefix": "ecs"
+                }
+            }
+        }
+    ],
+    "executionRoleArn": "arn:aws:iam::014025535279:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "2048",
+    "memory": "4096",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    }
+}
