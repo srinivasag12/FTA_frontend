@@ -1,20 +1,20 @@
 {
-    "family": "fta-frontend",
+    "family": "Frontend",
     "containerDefinitions": [
         {
-            "name": "fta-c1",
+            "name": "c1",
             "image": "014025535279.dkr.ecr.us-east-1.amazonaws.com/ftarepo",
             "cpu": 0,
             "portMappings": [
                 {
-                    "name": "fta-c1-80-tcp",
+                    "name": "c1-80-tcp",
                     "containerPort": 80,
                     "hostPort": 80,
                     "protocol": "tcp",
                     "appProtocol": "http"
                 },
                 {
-                    "name": "fta-c1-443-tcp",
+                    "name": "c1-443-tcp",
                     "containerPort": 443,
                     "hostPort": 443,
                     "protocol": "tcp",
@@ -30,8 +30,8 @@
             "logConfiguration": {
                 "logDriver": "awslogs",
                 "options": {
+                    "awslogs-group": "/ecs/Frontend",
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/fta-frontend",
                     "awslogs-region": "us-east-1",
                     "awslogs-stream-prefix": "ecs"
                 }
