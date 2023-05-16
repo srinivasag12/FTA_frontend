@@ -19,6 +19,13 @@
                     "hostPort": 443,
                     "protocol": "tcp",
                     "appProtocol": "http"
+                },
+               {
+                    "name": "c1-8181-tcp",
+                    "containerPort": 8181,
+                    "hostPort": 8181,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
                 }
             ],
             "essential": true,
